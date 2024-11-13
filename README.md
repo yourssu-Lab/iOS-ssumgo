@@ -12,6 +12,8 @@
 
 ## **🧑‍💻 Member**
 | Mai<br/>([@wjdalswl](https://github.com/wjdalswl)) | Tom<br/>([@jysuhr](https://github.com/jysuhr)) |
+| :---: | :---: |
+| <img width="544" alt="IMG_6678" src="https://avatars.githubusercontent.com/u/109158284?v=4"> | <img width="544" alt="IMG_6677" src="https://avatars.githubusercontent.com/u/162943584?v=4"> |
 <br>
 
 ## 🌳 branch 규칙
