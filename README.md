@@ -20,23 +20,22 @@
 ```bash
 ├─main
     ├─Application
-      ├─AppDelegate
-      ├─SceneDelegate
-      ├─LaunchScreen
+      ├─iOS_ssumgoApp
     ├─Resource
-      ├─UIComponents
-      ├─Extension
       ├─Config
+      ├─Extension
       ├─Fonts
+      ├─Preview Content
+      ├─UIComponents
       ├─Assets
     ├─Source
-      ├─Network
-        ├─API
       ├─Common
         ├─DAO
         ├─DTO
         ├─Entity
         ├─Type
+      ├─Network
+        ├─API
       ├─Presentation
         ├─View
         ├─ViewModel
