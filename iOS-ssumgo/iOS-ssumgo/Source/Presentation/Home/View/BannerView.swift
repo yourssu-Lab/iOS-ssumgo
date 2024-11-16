@@ -18,41 +18,46 @@ struct BannerView: View {
     private let rectWidth: CGFloat = 339
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 14)
+        Button(action: {
+            print("배너 클릭됨")
+        }) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 14)
+                    .frame(width: rectWidth, height: 64)
+                    .foregroundStyle(Color("banner_green"))
+                
+                VStack(spacing: 0) {
+                    Text("\(bannerTile)")
+                        .font(.pretendard(.medium, size: 13))
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 13)
+                        .padding(.top, 12)
+                    
+                    Text("\(bannerContent)")
+                        .font(.pretendard(.bold, size: 15))
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 13)
+                        .padding(.top, 4)
+                    
+                    Spacer()
+                }
                 .frame(width: rectWidth, height: 64)
-                .foregroundStyle(Color("banner_green"))
-            
-            VStack(spacing: 0) {
-                Text("\(bannerTile)")
-                    .font(.pretendard(.medium, size: 13))
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 13)
-                    .padding(.top, 12)
+                .padding(.horizontal, 27)
                 
-                Text("\(bannerContent)")
-                    .font(.pretendard(.bold, size: 15))
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 13)
-                    .padding(.top, 4)
-                
-                Spacer()
+                HStack(spacing: 0) {
+                    Text("\(pageNum)/\(pageTotalNum)")
+                        .font(.pretendard(.medium, size: 11))
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .padding(.trailing, 12)
+                        .padding(.top, 45)
+                }
+                .frame(width: rectWidth, height: 64)
             }
-            .frame(width: rectWidth, height: 64)
-            .padding(.horizontal, 27)
-            
-            HStack(spacing: 0) {
-                Text("\(pageNum)/\(pageTotalNum)")
-                    .font(.pretendard(.medium, size: 11))
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.trailing, 12)
-                    .padding(.top, 45)
-            }
-            .frame(width: rectWidth, height: 64)
+            .padding(.top, 24.34)
         }
-        .padding(.top, 24.34)
         
     }
 }

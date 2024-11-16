@@ -28,42 +28,46 @@ struct AnswersView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 27)
         
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
+        Button(action: {
+            print("인기 답변 클릭됨")
+        }) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: rectWidth, height: 92.83)
+                    .foregroundStyle(Color("s_gray10p"))
+                
+                VStack(spacing: 0) {
+                    Text("\(bestQuestionTitle)")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                        .padding(.top, 10)
+                    
+                    Text("\(bestQuestioner)님")
+                        .font(.pretendard(.regular, size: 12))
+                        .foregroundStyle(Color("s_gray"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                        .padding(.top, 7)
+                    
+                    Divider()
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 10)
+                    
+                    Text("→ \(bestAnswer)")
+                        .font(.pretendard(.medium, size: 12))
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                    
+                    Spacer()
+                }
                 .frame(width: rectWidth, height: 92.83)
-                .foregroundStyle(Color("s_gray10p"))
-            
-            VStack(spacing: 0) {
-                Text("\(bestQuestionTitle)")
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 10)
-                    .padding(.top, 10)
-                
-                Text("\(bestQuestioner)님")
-                    .font(.pretendard(.regular, size: 12))
-                    .foregroundStyle(Color("s_gray"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 10)
-                    .padding(.top, 7)
-                
-                Divider()
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 10)
-                
-                Text("→ \(bestAnswer)")
-                    .font(.pretendard(.medium, size: 12))
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 10)
-                
-                Spacer()
+                .padding(.horizontal, 27)
             }
-            .frame(width: rectWidth, height: 92.83)
-            .padding(.horizontal, 27)
+            .padding(.top, 16)
         }
-        .padding(.top, 16)
         
         Text("최근 답변")
             .font(.pretendard(.bold, size: 16))
@@ -72,40 +76,44 @@ struct AnswersView: View {
             .padding(.leading, 27)
             .padding(.top, 23)
         
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
+        Button(action: {
+            print("최근 답변 클릭됨")
+        }) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: rectWidth, height: 92.83)
+                    .foregroundStyle(Color("s_gray10p"))
+                
+                VStack(spacing: 0) {
+                    Text("\(recentQuestionTitle)")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                        .padding(.top, 10)
+                    
+                    Text("\(recentQuestioner)님")
+                        .font(.pretendard(.regular, size: 12))
+                        .foregroundStyle(Color("s_gray"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                        .padding(.top, 7)
+                    
+                    Divider()
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 10)
+                    
+                    Text("→ \(recentAnswer)")
+                        .font(.pretendard(.medium, size: 12))
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                    
+                    Spacer()
+                }
                 .frame(width: rectWidth, height: 92.83)
-                .foregroundStyle(Color("s_gray10p"))
-            
-            VStack(spacing: 0) {
-                Text("\(recentQuestionTitle)")
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 10)
-                    .padding(.top, 10)
-                
-                Text("\(recentQuestioner)님")
-                    .font(.pretendard(.regular, size: 12))
-                    .foregroundStyle(Color("s_gray"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 10)
-                    .padding(.top, 7)
-                
-                Divider()
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 10)
-                
-                Text("→ \(recentAnswer)")
-                    .font(.pretendard(.medium, size: 12))
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 10)
-                
-                Spacer()
+                .padding(.horizontal, 27)
             }
-            .frame(width: rectWidth, height: 92.83)
-            .padding(.horizontal, 27)
         }
         .padding(.top, 16)
     }
