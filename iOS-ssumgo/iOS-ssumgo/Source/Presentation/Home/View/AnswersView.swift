@@ -23,8 +23,7 @@ struct AnswersView: View {
     
     var body: some View {
         Text("인기 답변")
-            .font(.system(size: 16))
-            .bold()
+            .font(.pretendard(.bold, size: 16))
             .foregroundStyle(.black)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 27)
@@ -36,15 +35,14 @@ struct AnswersView: View {
             
             VStack(spacing: 0) {
                 Text("\(bestQuestionTitle)")
-                    .font(.system(size: 14))
-                    .bold()
+                    .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 10)
                     .padding(.top, 10)
                 
                 Text("\(bestQuestioner)님")
-                    .font(.system(size: 12))
+                    .font(.pretendard(.regular, size: 12))
                     .foregroundStyle(Color("s_gray"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 10)
@@ -55,7 +53,7 @@ struct AnswersView: View {
                     .padding(.vertical, 10)
                 
                 Text("→ \(bestAnswer)")
-                    .font(.system(size: 12))
+                    .font(.pretendard(.medium, size: 12))
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 10)
@@ -68,8 +66,7 @@ struct AnswersView: View {
         .padding(.top, 16)
         
         Text("최근 답변")
-            .font(.system(size: 16))
-            .bold()
+            .font(.pretendard(.bold, size: 16))
             .foregroundStyle(.black)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 27)
@@ -82,15 +79,14 @@ struct AnswersView: View {
             
             VStack(spacing: 0) {
                 Text("\(recentQuestionTitle)")
-                    .font(.system(size: 14))
-                    .bold()
+                    .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 10)
                     .padding(.top, 10)
                 
                 Text("\(recentQuestioner)님")
-                    .font(.system(size: 12))
+                    .font(.pretendard(.regular, size: 12))
                     .foregroundStyle(Color("s_gray"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 10)
@@ -101,7 +97,7 @@ struct AnswersView: View {
                     .padding(.vertical, 10)
                 
                 Text("→ \(recentAnswer)")
-                    .font(.system(size: 12))
+                    .font(.pretendard(.medium, size: 12))
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 10)
