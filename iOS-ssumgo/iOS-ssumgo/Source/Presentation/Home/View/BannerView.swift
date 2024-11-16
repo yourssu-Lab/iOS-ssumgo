@@ -24,7 +24,7 @@ struct BannerView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 14)
                     .frame(width: rectWidth, height: 64)
-                    .foregroundStyle(Color("banner_green"))
+                    .foregroundStyle(Color("s_banner_green"))
                 
                 VStack(spacing: 0) {
                     Text("\(bannerTile)")
