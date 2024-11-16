@@ -37,26 +37,21 @@ struct SsumgoMainView: View {
             Divider()
             
             Text("반가워요!")
-                .fixedSize()
-                .font(.system(size: 23))
-                .bold()
+                .font(.pretendard(.bold, size: 23))
                 .foregroundStyle(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 30)
                 .padding(.leading, 27)
             
             Text("\(major) \(name)님")
-                .font(.system(size: 23))
-                .bold()
+                .font(.pretendard(.bold, size: 23))
                 .foregroundStyle(Color("s_main"))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 10)
                 .padding(.leading, 27)
 
             Text("수강중인 전공과목")
-                .frame(height: 16)
-                .font(.system(size: 16))
-                .bold()
+                .font(.pretendard(.bold, size: 16))
                 .foregroundStyle(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 16)
@@ -91,7 +86,7 @@ struct SsumgoMainView: View {
  - [x] 버튼으로 바꿔주기 : 알림아이콘...
  - [x] 수강중인 전공과목 뷰 옮기기
  - [x] 답변 뷰 옮기기
- - [ ] 폰트 적용
+ - [x] 폰트 적용
  - [ ] API 연결
  - [ ] 인기 답변 3개 10초마다 반복 교체
  */
