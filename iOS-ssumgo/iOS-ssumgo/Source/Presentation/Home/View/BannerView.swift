@@ -25,14 +25,14 @@ struct BannerView: View {
             
             VStack(spacing: 0) {
                 Text("\(bannerTile)")
-                    .font(.pretendard(.medium, size: 13))
+                    .font(.system(size: 13))
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 13)
                     .padding(.top, 12)
                 
                 Text("\(bannerContent)")
-                    .font(.pretendard(.bold, size: 15))
+                    .font(.system(size: 15))
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 13)
@@ -45,7 +45,7 @@ struct BannerView: View {
             
             HStack(spacing: 0) {
                 Text("\(pageNum)/\(pageTotalNum)")
-                    .font(.pretendard(.medium, size: 11))
+                    .font(.system(size: 11))
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding(.trailing, 12)
                     .padding(.top, 45)

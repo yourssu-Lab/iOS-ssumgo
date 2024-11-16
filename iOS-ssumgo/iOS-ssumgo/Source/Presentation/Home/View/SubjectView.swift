@@ -21,7 +21,7 @@ struct SubjectView: View {
                 Image(iconName)
             }
             Text("\(subjectName)")
-                .font(.pretendard(.semiBold, size: 12))
+                .font(.system(size: 12))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .padding(.top, 8)
