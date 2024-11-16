@@ -11,7 +11,7 @@ import SwiftUI
 struct iOS_ssumgoApp: App {
     var body: some Scene {
         WindowGroup {
-            ssumgoMain()
+            SsumgoMainView()
         }
     }
 }
