@@ -36,7 +36,11 @@ struct CustomTabBarView: View {
                         ChatView()
                     }
                 case .mypage:
-                    MyPageView()
+                    if tabBarType == .mentee {
+                        MyPageView(myPageType: .mentee)
+                    } else {
+                        MyPageView(myPageType: .mentor)
+                    }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
