@@ -31,9 +31,9 @@ struct CustomTabBarView: View {
                     HomeView()
                 case .chat:
                     if tabBarType == .mentee {
-                        ChatView()
+                        ChatView(viewType: .mentee)
                     } else {
-                        ChatView()
+                        ChatView(viewType: .mentor)
                     }
                 case .mypage:
                     if tabBarType == .mentee {
