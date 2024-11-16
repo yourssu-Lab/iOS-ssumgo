@@ -15,7 +15,6 @@ struct HomeView: View {
                 .foregroundStyle(.tint)
             Text("Hello, world!")
         }
-        .padding()
     }
 }
 
