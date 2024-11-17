@@ -33,7 +33,7 @@ struct NotificationView: View {
                             action: {
                                 print("모두읽음 버튼 클릭")
                             },
-                            color: Color("s_main"),
+                            color: .sMain,
                             font: .pretendard(.regular, size: 16),
                             underline: true
                         )
