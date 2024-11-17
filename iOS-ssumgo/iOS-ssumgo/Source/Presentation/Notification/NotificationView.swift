@@ -96,5 +96,4 @@ struct NotificationView: View {
  - [ ] 알림 없을 때 빈 화면 구현
  - [ ] 커스텀 탭바 적용
  - [ ] API 연결
- - [ ] 인기 답변 3개 10초마다 반복 교체
  */
