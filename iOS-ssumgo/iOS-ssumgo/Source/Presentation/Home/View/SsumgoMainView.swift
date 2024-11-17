@@ -17,23 +17,7 @@ struct SsumgoMainView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 0) {
-
-                Image("img_logo_ssumgo")
-                    .padding(.horizontal, 36)
-                
-                Spacer()
-                
-                Button(action: {
-                    // FIXME: 화면 전환
-                    print("알림버튼 눌림")
-                }) {
-                    Image("ic_bell")
-                }
-                .padding(.trailing, 37)
-
-            }
-            
+            LogoNavigationBar(alarm: true)
             Divider()
             
             Text("반가워요!")
@@ -69,9 +53,7 @@ struct SsumgoMainView: View {
             .padding(.bottom, 22)
             
             AnswersView()
-            
             BannerView()
-            
             Spacer()
         }
     }

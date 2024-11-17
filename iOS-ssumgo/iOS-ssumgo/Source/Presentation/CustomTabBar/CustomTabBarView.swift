@@ -28,7 +28,7 @@ struct CustomTabBarView: View {
             ZStack {
                 switch selectedTab {
                 case .home:
-                    HomeView()
+                    SsumgoMainView()
                 case .chat:
                     if tabBarType == .mentee {
                         ChatView(viewType: .mentee)
