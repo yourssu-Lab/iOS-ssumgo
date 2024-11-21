@@ -32,7 +32,7 @@ struct SplashView: View {
                 .padding(.horizontal, 24)
             }
             .navigationDestination(isPresented: $navigateToNextView) {
-                HomeView()
+                SsumgoMainView()
             }
         }
     }
