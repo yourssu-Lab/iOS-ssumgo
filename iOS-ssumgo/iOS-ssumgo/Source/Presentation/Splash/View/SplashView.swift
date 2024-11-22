@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SplashView: View {
-    @State private var navigateToNextView = false
-    
+    @StateObject private var viewModel = SplashViewModel()
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -25,13 +25,16 @@ struct SplashView: View {
                 CustomBoxButton(
                     title: "숭실숨고 시작하기",
                     action: {
-                        navigateToNextView = true
+                        viewModel.checkAuthentication()
                     },
                     kerning: (16 * (-0.4 / 100))
                 )
                 .padding(.horizontal, 24)
             }
-            .navigationDestination(isPresented: $navigateToNextView) {
+            .navigationDestination(isPresented: $viewModel.navigateToLogin) {
+                LoginView()
+            }
+            .navigationDestination(isPresented: $viewModel.navigateToMain) {
                 SsumgoMainView()
             }
         }

@@ -14,74 +14,103 @@ enum MyPageType {
 }
 
 struct MyPageView: View {
+    @StateObject private var viewModel = MyPageViewModel()
     @State var myPageType: MyPageType
-    @State var nickname: String = "정다운"
-    @State var department: String = "글로벌미디어학부"
-    @State var studentIdNumber: String = "23"
-    @State var rating: String = "1.4"
+    @State var appVersion: String = "1.0.0"
     
     var body: some View {
         VStack(spacing: 0) {
-            
-            ScrollView {
-                VStack(spacing: 32) {
-                    VStack(spacing: 6) {
-                        Image("img_Profile")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 70, height: 70)
-                            .padding(2)
-                        
-                        Text("\(nickname)")
-                            .font(.pretendard(.semiBold, size: 16))
-                            .tracking(16 * (  -5/100))
-                            .foregroundColor(.black)
-                        
-                        Text("\(department) \(studentIdNumber)학번")
-                            .font(.pretendard(.regular, size: 12))
-                            .tracking(16 * (  -3/100))
-                            .foregroundColor(.gray)
-                        
-                        if myPageType == .mentor {
-                            HStack {
-                                Image("ic_star")
-                                    .renderingMode(.template)
+            if viewModel.isLoading {
+                ProgressView("로딩 중...")
+            } else {
+                ScrollView {
+                    VStack(spacing: 32) {
+                        VStack(spacing: 6) {
+                            if viewModel.profileImageUrl.isEmpty {
+                                Image("img_Profile")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 10, height: 10)
-                                    .foregroundStyle(.black)
-                                
-                                Text("\(rating)")
-                                    .font(.pretendard(.regular, size: 12))
-                                    .foregroundColor(.black)
+                                    .frame(width: 70, height: 70)
+                                    .padding(2)
+                            } else {
+                                AsyncImage(url: URL(string: viewModel.profileImageUrl)) { image in
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: 70, height: 70)
+                                        .padding(2)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            }
+                            
+                            Text(viewModel.nickname)
+                                .font(.pretendard(.semiBold, size: 16))
+                                .tracking(16 * (  -5/100))
+                                .foregroundColor(.black)
+                            
+                            Text("\(viewModel.department) \(viewModel.studentIdNumber)학번")
+                                .font(.pretendard(.regular, size: 12))
+                                .tracking(16 * (  -3/100))
+                                .foregroundColor(.gray)
+                            
+                            if myPageType == .mentor, let rating = viewModel.rating {
+                                HStack {
+                                    Image("ic_star")
+                                        .renderingMode(.template)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 10, height: 10)
+                                        .foregroundStyle(.black)
+                                    
+                                    Text(rating)
+                                        .font(.pretendard(.regular, size: 12))
+                                        .foregroundColor(.black)
+                                }
                             }
                         }
-                    }
-                    
-
-                    VStack {
-                        YDSList(
-                            hasSubHeader: true,
-                            subHeaderText: "보관함",
-                            items: [YDSListItem(text: "보관함 바로가기", icon: true)]
-                        )
-                        YDSList(
-                            hasSubHeader: true,
-                            subHeaderText: "고객센터",
-                            items: [YDSListItem(text: "고객센터 바로가기", icon: true)]
-                        )
                         
-                        YDSList(
-                            hasSubHeader: true,
-                            subHeaderText: "가이드",
-                            items: [YDSListItem(text: "공지사항", icon: true),
-                                    YDSListItem(text: "숭실숨고 안내", icon: true),
-                                    YDSListItem(text: "앱버전")]
+                        VStack {
+                            YDSList(
+                                hasSubHeader: true,
+                                subHeaderText: "보관함",
+                                items: [YDSListItem(text: "보관함 바로가기", icon: true)]
+                            )
+                            YDSList(
+                                hasSubHeader: true,
+                                subHeaderText: "고객센터",
+                                items: [YDSListItem(text: "고객센터 바로가기", icon: true)]
+                            )
+                            
+                            YDSList(
+                                hasSubHeader: true,
+                                subHeaderText: "가이드",
+                                items: [YDSListItem(text: "공지사항", icon: true),
+                                        YDSListItem(text: "숭실숨고 안내", icon: true),
+                                        YDSListItem(text: "앱버전")
+                                       ]
+                            )
+                            .background(.red)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    HStack {
+                                        Spacer()
+                                        Text("\(appVersion)")
+                                            .font(.pretendard(.regular, size: 12))
+                                            .foregroundColor(.black)
+                                            .padding(.trailing, 30)
+                                            .padding(.bottom, 16)
+                                    }
+                                }
                         )
+                        }
                     }
+                    .edgesIgnoringSafeArea(.bottom)
                 }
-                .edgesIgnoringSafeArea(.bottom)
             }
+        }
+        .onAppear {
+            viewModel.fetchMyPageData()
         }
     }
 }

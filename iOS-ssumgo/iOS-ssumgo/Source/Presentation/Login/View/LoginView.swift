@@ -10,7 +10,6 @@ import YDS_SwiftUI
 
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
-    @State private var navigateToNextView = false
     
     var body: some View {
         NavigationStack {
@@ -46,19 +45,24 @@ struct LoginView: View {
                 CustomBoxButton(
                     title: "로그인",
                     action: {
-                        navigateToNextView = true
+                        viewModel.login()
                     },
                     isDisabled: !viewModel.isLoginEnabled,
                     kerning: -0.24
                 )
-                .navigationDestination(isPresented: $navigateToNextView) {
+                .navigationDestination(isPresented: $viewModel.isLoginSuccessful) {
                     CustomTabBarView(tabBarType: .mentor)
                 }
             }
             .padding(.horizontal, 36)
             .edgesIgnoringSafeArea(.all)
+            .onReceive(viewModel.$errorMessage.compactMap { $0 }) { errorMessage in
+                YDSToast(errorMessage,  duration: .short)
+                    }
+            .registerYDSToast()
             Spacer()
         }
+        .navigationBarHidden(true) 
     }
 }
 
