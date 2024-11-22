@@ -11,7 +11,10 @@ import SwiftUI
 struct iOS_ssumgoApp: App {
     var body: some Scene {
         WindowGroup {
-            CustomTabBarView(tabBarType: .mentor)
+            SplashView()
+//            LoginView()
+//            SsumgoMainView()
+//            CustomTabBarView(tabBarType: .mentee)
         }
     }
 }

@@ -14,12 +14,16 @@ struct NotificationView: View {
     var notRead: Bool = false
     var recent7Days: Bool = false
     var recent30Days: Bool = false
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack(spacing: 0) {
             BackNavigationBar(
                 rightIcon: false,
-                title: "알림"
+                title: "알림",
+                onLeftIconTap: {
+                    presentationMode.wrappedValue.dismiss()
+                }
             )
             Divider()
             

@@ -35,7 +35,7 @@ struct SplashView: View {
                 LoginView()
             }
             .navigationDestination(isPresented: $viewModel.navigateToMain) {
-                SsumgoMainView()
+                CustomTabBarView(tabBarType: .mentee)
             }
         }
     }

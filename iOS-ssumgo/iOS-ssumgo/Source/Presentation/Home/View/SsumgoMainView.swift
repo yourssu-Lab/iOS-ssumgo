@@ -9,15 +9,25 @@ import SwiftUI
 
 struct SsumgoMainView: View {
     
-    /// 인사 글
-    @State var major: String = "글로벌미디어학부"
-    @State var name: String = "정다운"
-    
-    private let rectWidth: CGFloat = 339
+    @StateObject private var viewModel = SsumgoMainViewModel()
+    @State private var showNotificationView = false
     
     var body: some View {
         VStack(spacing: 0) {
-            LogoNavigationBar(alarm: true)
+            LogoNavigationBar(
+                alarm: true,
+                alarmAction: { showNotificationView = true }
+            )
+            .background(
+                NavigationLink(
+                    destination: NotificationView()
+                        .navigationBarBackButtonHidden(true),
+                    isActive: $showNotificationView,
+                    label: { EmptyView() }
+                )
+                .hidden()
+            )
+            
             Divider()
             
             Text("반가워요!")
@@ -27,7 +37,7 @@ struct SsumgoMainView: View {
                 .padding(.top, 30)
                 .padding(.leading, 27)
             
-            Text("\(major) \(name)님")
+            Text("\(viewModel.department) \(viewModel.nickname)님")
                 .font(.pretendard(.bold, size: 23))
                 .foregroundStyle(Color("s_main"))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -43,9 +53,13 @@ struct SsumgoMainView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 0) {
-                    SubjectView(iconName: "img_programming", subjectName: "프로그래밍2\n및실습")
-                    SubjectView(iconName: "img_media", subjectName: "미디어\n제작및실습")
-                    SubjectView(iconName: "img_computer", subjectName: "컴퓨터\n시스템개론")
+//                    SubjectView(iconName: "img_programming", subjectName: "프로그래밍2\n및실습")
+//                    SubjectView(iconName: "img_media", subjectName: "미디어\n제작및실습")
+//                    SubjectView(iconName: "img_computer", subjectName: "컴퓨터\n시스템개론")
+                    
+                    SubjectView(iconName: "img_programming", subjectName: viewModel.subjectName1)
+                    SubjectView(iconName: "img_media", subjectName: viewModel.subjectName2)
+                    SubjectView(iconName: "img_computer", subjectName: viewModel.subjectName3)
                 }
                 .padding(.horizontal, 25)
             }
@@ -56,7 +70,15 @@ struct SsumgoMainView: View {
             BannerView()
             Spacer()
         }
+        .navigationBarHidden(true)
+        .onAppear {
+            viewModel.fetchMainData()
+        }
     }
+}
+
+struct Constants {
+    static let rectWidth: CGFloat = 339
 }
 
 #Preview {
@@ -69,6 +91,7 @@ struct SsumgoMainView: View {
  - [x] 수강중인 전공과목 뷰 옮기기
  - [x] 답변 뷰 옮기기
  - [x] 폰트 적용
- - [ ] API 연결
- - [ ] 인기 답변 3개 10초마다 반복 교체
+ - [x] 학생 정보 API 연결
+ - [ ] 인기 답변, 최근 답변 API연결
+ - [x] 인기 답변 3개 10초마다 반복 교체
  */
