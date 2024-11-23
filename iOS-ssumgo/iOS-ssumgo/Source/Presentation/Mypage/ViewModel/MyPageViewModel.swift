@@ -16,7 +16,7 @@ final class MyPageViewModel: ObservableObject {
     @Published var rating: String? = nil
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
-
+    
     private var cancellables = Set<AnyCancellable>()
     private let myPageDAO = MyPageDAO()
     
@@ -44,5 +44,12 @@ final class MyPageViewModel: ObservableObject {
                 }
             })
             .store(in: &cancellables)
+    }
+    
+    func logout() {
+        Config.sessionToken = nil
+        Config.accessToken = nil
+        Config.refreshToken = nil
+        print("로그아웃 완료: 토큰 및 사용자 정보 초기화")
     }
 }
