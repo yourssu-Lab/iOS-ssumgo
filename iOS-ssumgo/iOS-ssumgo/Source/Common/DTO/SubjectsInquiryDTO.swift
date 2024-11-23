@@ -5,11 +5,7 @@
 //  Created by 서준영 on 11/23/24.
 //
 
-struct SubjectsInquiryDTO: Decodable {
-    let subjectList: [SubjectDTO]
-}
-
-struct SubjectDTO: Decodable {
+struct SubjectInquiryDTO: Decodable {
     let subjectId: Int
     let subjectName: String
     let professorName: String
