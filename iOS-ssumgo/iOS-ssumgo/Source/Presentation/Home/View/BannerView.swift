@@ -9,55 +9,33 @@ import SwiftUI
 
 struct BannerView: View {
     
-    /// 배너
-    @State var bannerTile: String = "글미가 글미가 아니라고??!"
-    @State var bannerContent: String = "저희는 이제 <디자인 소프트웨어학부> 입니다."
-    @State var pageNum: Int = 1
-    @State var pageTotalNum: Int = 3
-    
-    private let rectWidth: CGFloat = 339
+    @State private var currentIndex = 0
+    private let banners = ["Banner1", "Banner2", "Banner3"]
+    private let timer = Timer.publish(every: 8, on: .main, in: .common).autoconnect()
     
     var body: some View {
         Button(action: {
             print("배너 클릭됨")
         }) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 14)
-                    .frame(width: rectWidth, height: 64)
-                    .foregroundStyle(Color("s_banner_green"))
-                
-                VStack(spacing: 0) {
-                    Text("\(bannerTile)")
-                        .font(.pretendard(.medium, size: 13))
-                        .foregroundStyle(.black)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 13)
-                        .padding(.top, 12)
-                    
-                    Text("\(bannerContent)")
-                        .font(.pretendard(.bold, size: 15))
-                        .foregroundStyle(.black)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 13)
-                        .padding(.top, 4)
-                    
-                    Spacer()
+            TabView(selection: $currentIndex) {
+                ForEach(banners.indices, id: \.self) { index in
+                    Image(banners[index])
+                        .resizable()
+                        .frame(width: Constants.rectWidth, height: 72)
+                        .padding(.horizontal, 27)
                 }
-                .frame(width: rectWidth, height: 64)
-                .padding(.horizontal, 27)
-                
-                HStack(spacing: 0) {
-                    Text("\(pageNum)/\(pageTotalNum)")
-                        .font(.pretendard(.medium, size: 11))
-                        .foregroundStyle(.black)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .padding(.trailing, 12)
-                        .padding(.top, 45)
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .onReceive(timer) { _ in
+                withAnimation {
+                    currentIndex = (currentIndex + 1) % banners.count
                 }
-                .frame(width: rectWidth, height: 64)
             }
             .padding(.top, 24.34)
         }
-        
     }
+}
+
+#Preview {
+    BannerView()
 }

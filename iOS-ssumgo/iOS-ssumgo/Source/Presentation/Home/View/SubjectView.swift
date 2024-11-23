@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SubjectView: View {
-    @State var iconName: String
-    @State var subjectName: String
+    var iconName: String
+    var subjectName: String
     
     var body: some View {
         VStack(spacing: 0) {
@@ -26,6 +26,6 @@ struct SubjectView: View {
                 .lineLimit(2)
                 .padding(.top, 8)
         }
-        .padding(.horizontal, 25)
+        .padding(.horizontal, 15)
     }
 }
