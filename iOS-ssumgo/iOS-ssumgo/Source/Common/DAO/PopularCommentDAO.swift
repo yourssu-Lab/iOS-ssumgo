@@ -1,21 +1,21 @@
 //
-//  SubjectsInquiryDAO.swift
+//  PopularCommentDAO.swift
 //  iOS-ssumgo
 //
-//  Created by 서준영 on 11/23/24.
+//  Created by 서준영 on 11/24/24.
 //
 
 import SwiftUI
 import Combine
 
-final class SubjectsInquiryDAO {
-    func fetchSubjects() -> AnyPublisher<[SubjectInquiryDTO], Error> {
+final class PopularCommentDAO {
+    func fetchPopularComments() -> AnyPublisher<[PopularCommentDTO], Error> {
         return BaseAPIClient.shared.performRequest(
-            endpoint: "/subjects/students",
+            endpoint: "/posts/comments/popular",
             method: .get,
             headers: Config.headerWithAccessToken
         )
-        .tryMap { (response: BaseResponse<[SubjectInquiryDTO]>) in
+        .tryMap { (response: BaseResponse<[PopularCommentDTO]>) in
             guard let result = response.result else {
                 throw URLError(.badServerResponse)
             }

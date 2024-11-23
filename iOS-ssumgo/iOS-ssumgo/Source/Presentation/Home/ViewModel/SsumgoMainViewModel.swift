@@ -40,24 +40,7 @@ final class SsumgoMainViewModel: ObservableObject {
                 self?.department = profile.department
             })
             .store(in: &cancellables)
-        /*
-        subjectsInquiryDAO.fetchSubjects()
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-                self.isLoading = false
-                switch completion {
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
-                case .finished:
-                    break
-                }
-            }, receiveValue: { [weak self] subject in
-                self?.subjectName1 = subject.subjectList.count > 0 ? subject.subjectList[0].subjectName : "No Data"
-                self?.subjectName2 = subject.subjectList.count > 1 ? subject.subjectList[1].subjectName : "No Data"
-                self?.subjectName3 = subject.subjectList.count > 2 ? subject.subjectList[2].subjectName : "No Data"
-            })
-            .store(in: &cancellables)
-         */
+
         subjectsInquiryDAO.fetchSubjects()
             .sink(receiveCompletion: { completion in
                 switch completion {
