@@ -14,9 +14,14 @@ struct APIError: LocalizedError {
     let data: Data
 
     var errorDescription: String? {
-        let message = try? JSONDecoder().decode(BaseResponse<EmptyResult>.self, from: data)
-        return message?.message ?? "알 수 없는 에러가 발생했습니다."
+        let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
+        return errorResponse?.message ?? "알 수 없는 에러가 발생했습니다."
     }
 
     static let unauthorized = APIError(statusCode: 401, data: Data())
+}
+
+struct ErrorResponse: Decodable {
+    let error: String
+    let message: String
 }

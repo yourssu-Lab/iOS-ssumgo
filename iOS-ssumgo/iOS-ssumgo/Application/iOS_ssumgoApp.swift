@@ -12,9 +12,6 @@ struct iOS_ssumgoApp: App {
     var body: some Scene {
         WindowGroup {
             SplashView()
-//            LoginView()
-//            SsumgoMainView()
-//            CustomTabBarView(tabBarType: .mentee)
         }
     }
 }

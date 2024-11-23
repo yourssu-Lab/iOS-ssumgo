@@ -18,6 +18,9 @@ struct MyPageView: View {
     @State var myPageType: MyPageType
     @State var appVersion: String = "1.0.0"
     
+    @Environment(\.dismiss) private var dismiss
+    @State private var shouldNavigateToSplash = false
+    
     var body: some View {
         VStack(spacing: 0) {
             if viewModel.isLoading {
@@ -31,6 +34,7 @@ struct MyPageView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 70, height: 70)
+                                    .cornerRadius(35)
                                     .padding(2)
                             } else {
                                 AsyncImage(url: URL(string: viewModel.profileImageUrl)) { image in
@@ -104,6 +108,28 @@ struct MyPageView: View {
                                 }
                         )
                         }
+                        HStack(alignment: .center) {
+                            YDSPlainButton(
+                                text: "로그아웃",
+                                action: {
+                                    viewModel.logout()
+                                    shouldNavigateToSplash = true
+                                }
+                            )
+                            
+                            Text("|")
+                                .font(.pretendard(.semiBold, size: 12))
+                                .foregroundColor(.gray)
+                            
+                            YDSPlainButton(
+                                text: "탈퇴하기",
+                                action: {
+                                    print("탈퇴하기")
+                                    
+                                }
+                            )
+                        }
+ 
                     }
                     .edgesIgnoringSafeArea(.bottom)
                 }
@@ -111,6 +137,9 @@ struct MyPageView: View {
         }
         .onAppear {
             viewModel.fetchMyPageData()
+        }
+        .navigationDestination(isPresented: $shouldNavigateToSplash) {
+            SplashView()
         }
     }
 }
