@@ -32,13 +32,18 @@ struct SplashView: View {
                 .padding(.horizontal, 24)
             }
             .navigationDestination(isPresented: $viewModel.navigateToLogin) {
-                LoginView()
+                NavigationStack {
+                    LoginView()
+                }
             }
             .navigationDestination(isPresented: $viewModel.navigateToMain) {
-                SsumgoMainView()
+                NavigationStack {
+                    CustomTabBarView(tabBarType: .mentee)
+                }
             }
         }
-    }
+        .navigationBarHidden(true)
+    }        
 }
 
 #Preview {
