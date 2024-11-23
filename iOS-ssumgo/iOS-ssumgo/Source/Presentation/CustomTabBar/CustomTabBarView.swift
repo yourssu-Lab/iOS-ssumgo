@@ -50,6 +50,7 @@ struct CustomTabBarView: View {
                 tabBarType: $tabBarType
             )
         }
+        .navigationBarHidden(true)
         .edgesIgnoringSafeArea(.bottom)
     }
 }
