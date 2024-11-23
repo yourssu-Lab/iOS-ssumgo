@@ -53,16 +53,23 @@ struct LoginView: View {
                 .navigationDestination(isPresented: $viewModel.isLoginSuccessful) {
                     CustomTabBarView(tabBarType: .mentor)
                 }
+                
+                CustomTextButton( title: "회원가입",  action: {
+                    viewModel.isSignUpTapped = true
+                },underline: true)
+                .navigationDestination(isPresented: $viewModel.isSignUpTapped ) {
+                    SignUpView()
+                }
             }
             .padding(.horizontal, 36)
             .edgesIgnoringSafeArea(.all)
             .onReceive(viewModel.$errorMessage.compactMap { $0 }) { errorMessage in
                 YDSToast(errorMessage,  duration: .short)
-                    }
+            }
             .registerYDSToast()
             Spacer()
         }
-        .navigationBarHidden(true) 
+        .navigationBarHidden(true)
     }
 }
 
