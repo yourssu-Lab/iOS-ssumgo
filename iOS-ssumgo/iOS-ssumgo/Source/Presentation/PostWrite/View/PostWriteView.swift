@@ -30,11 +30,14 @@ class KeyboardGuardian: ObservableObject {
 }
 
 struct PostWriteView: View {
-    @State private var questionTitle: String = ""
-    @State private var questionContents: String = ""
     
     @FocusState private var isKeyboardActive: Bool // 키보드 상태 추적
     @StateObject private var keyboardGuardian = KeyboardGuardian() // 키보드 상태 객체
+    @StateObject private var viewModel = PostWriteViewModel()
+    
+    @Environment(\.presentationMode) var presentationMode
+    
+    let subjectId: Int
     
     var body: some View {
         VStack(spacing: 0) {
@@ -42,7 +45,10 @@ struct PostWriteView: View {
             BackNavigationBar(
                 back: true,
                 rightIcon: false,
-                title: "질문등록"
+                title: "질문등록",
+                onLeftIconTap: {
+                    presentationMode.wrappedValue.dismiss()
+                }
             )
             Divider()
             
@@ -54,7 +60,7 @@ struct PostWriteView: View {
                         .padding(.top, 43)
                         .padding(.leading, 28)
                     
-                    TextField("", text: $questionTitle)
+                    TextField("", text: $viewModel.title)
                         .focused($isKeyboardActive) // 포커스 상태와 연결
                         .padding(.vertical, 8) // 텍스트 필드 안쪽 여백
                         .overlay(
@@ -72,7 +78,7 @@ struct PostWriteView: View {
                         .padding(.top, 43)
                         .padding(.leading, 28)
                     
-                    TextEditor(text: $questionContents)
+                    TextEditor(text: $viewModel.content)
                         .focused($isKeyboardActive) // 포커스 상태와 연결
                         .frame(width: 341, height: 410)
                         .padding(.top, 4)
@@ -82,14 +88,26 @@ struct PostWriteView: View {
                     
                     Spacer()
                     
-                    CustomBoxButton(
-                        title: "작성하기",
-                        isDisabled: questionTitle.isEmpty,
-                        kerning: -0.24
-                    )
-                    .padding(.horizontal, 27)
-                    .padding(.top, 27)
+                    if viewModel.isLoading {
+                        ProgressView("Submitting...")
+                    } else {
+                        CustomBoxButton(
+                            title: "작성하기",
+                            action: {
+                                viewModel.submitPost()
+                                presentationMode.wrappedValue.dismiss()
+                            },
+                            isDisabled: viewModel.title.isEmpty,
+                            kerning: -0.24
+                        )
+                        .padding(.horizontal, 27)
+                        .padding(.top, 27)
+                    }
                     
+                    if let errorMessage = viewModel.errorMessage {
+                        Text("Error: \(errorMessage)")
+                            .foregroundStyle(.red)
+                    }
                 }
             }
             
@@ -114,9 +132,12 @@ struct PostWriteView: View {
         .onTapGesture {
             isKeyboardActive = false // 배경 탭으로 키보드 닫기
         }
+        .onAppear {
+            viewModel.subjectId = subjectId
+        }
     }
 }
 
 #Preview {
-    PostWriteView()
+    PostWriteView(subjectId: 0)
 }

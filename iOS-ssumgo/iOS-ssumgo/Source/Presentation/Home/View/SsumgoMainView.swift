@@ -53,9 +53,9 @@ struct SsumgoMainView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 0) {
-                    SubjectView(iconName: "img_programming", subjectName: viewModel.subjectName1)
-                    SubjectView(iconName: "img_media", subjectName: viewModel.subjectName2)
-                    SubjectView(iconName: "img_computer", subjectName: viewModel.subjectName3)
+                    SubjectView(iconName: "img_programming", subjectName: viewModel.subjectName1, subjectId: viewModel.subjectId1)
+                    SubjectView(iconName: "img_media", subjectName: viewModel.subjectName2, subjectId: viewModel.subjectId2)
+                    SubjectView(iconName: "img_computer", subjectName: viewModel.subjectName3, subjectId: viewModel.subjectId3)
                 }
                 .padding(.horizontal, 25)
             }
@@ -80,14 +80,3 @@ struct Constants {
 #Preview {
     SsumgoMainView()
 }
-
-// MARK: - todolist
-/*
- - [x] 버튼으로 바꿔주기 : 알림아이콘...
- - [x] 수강중인 전공과목 뷰 옮기기
- - [x] 답변 뷰 옮기기
- - [x] 폰트 적용
- - [x] 학생 정보 API 연결
- - [x] 인기 답변 3개 10초마다 반복 교체
- - [ ] 인기 답변, 최근 답변 API연결
- */
