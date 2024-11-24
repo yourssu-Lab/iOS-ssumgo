@@ -11,9 +11,9 @@ struct NotificationView: View {
     
     private let rectWidth: CGFloat = 339
     
-    var notRead: Bool = false
-    var recent7Days: Bool = false
-    var recent30Days: Bool = false
+    @State var notRead: Bool = true
+    var recent7Days: Bool = true
+    var recent30Days: Bool = true
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -48,6 +48,7 @@ struct NotificationView: View {
                                     title: "모두읽음",
                                     action: {
                                         print("모두읽음 버튼 클릭")
+                                        notRead = false
                                     },
                                     color: .sMain,
                                     font: .pretendard(.regular, size: 16),
@@ -61,7 +62,7 @@ struct NotificationView: View {
                             NotificationListView(notifications: [
                                 ("소프트웨어학부 기말 프로젝트 주제가 뭔가요?", "박**", 21, "소프트웨어학부"),
                                 ("전자정보공학부 실험 수업에서 준비해야 할 사항이 있나요?", "최**", 23, "전자정보공학부"),
-                                ("경영학부 중간고사 범위가 어떻게 되나요?", "김**", 21, "경영학부")
+                                ("컴퓨터학부 기말 프로젝트 제출 기한은 언제인가요?", "박**", 21, "컴퓨터학부")
                             ])
                             .padding(.horizontal, 23)
                             .padding(.top, 16)
