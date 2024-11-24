@@ -14,17 +14,17 @@ enum ChatType {
 }
 
 struct ChatPreview: View {
-    @State var chatType: ChatType
-    @State var question: String = "컴퓨터시스템개론 기말 어떻게 준비해야하나요?"
-    @State var answer: String = "컴시개는 족보가 중요해요~~~"
-    @State var nickname: String = "정**"
-    @State var department: String = "글로벌미디어학부"
-    @State var studentIdNumber: String = "23"
-    @State var starNum: String = "2"
+    var chatType: ChatType
+    var question: String
+    var answer: String = ""
+    var nickname: String
+    var department: String
+    var studentIdNumber: String
+    var starNum: String = "2"
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("\(question)")
+            Text(question)
                 .font(.pretendard(.semiBold, size: 14))
                 .foregroundColor(.black)
                 .padding(.bottom, -3)
@@ -68,8 +68,20 @@ struct ChatPreview: View {
 
 #Preview {
     VStack(spacing: 10) {
-        ChatPreview(chatType: .answer)
-        ChatPreview(chatType: .question)
+        ChatPreview(
+            chatType: .answer,
+            question: "안녕하세요",
+            nickname: "wjdalswl",
+            department: "soft",
+            studentIdNumber: "1"
+        )
+        ChatPreview(
+            chatType: .question,
+            question: "안녕하세요",
+            nickname: "wjdalswl",
+            department: "soft",
+            studentIdNumber: "1"
+        )
     }
     .padding(26)
 }

@@ -38,7 +38,10 @@ struct SearchNavigationBar: View {
     var title: String
     var back: Bool = false
     @State private var isSearching: Bool = false
-    @State private var searchText: String = ""
+    
+    @Binding  var searchText: String
+    var onSearchIconTap: (() -> Void)? = nil
+    var onCancelSearch: (() -> Void)? = nil
     
     @ObservedObject var recentSearchManager = RecentSearchManager.shared
     
@@ -51,6 +54,7 @@ struct SearchNavigationBar: View {
                         withAnimation {
                             isSearching = false
                             searchText = ""
+                            onCancelSearch?()
                         }
                     },
                     onCommit: {
@@ -67,7 +71,13 @@ struct SearchNavigationBar: View {
                     .padding(.bottom, 19)
                 
                 if !recentSearchManager.recentSearches.isEmpty {
-                    RecentSearchView(recentSearchManager: recentSearchManager)
+                    RecentSearchView(
+                        recentSearchManager: recentSearchManager,
+                        onSelectSearch: { selectedSearch in
+                            searchText = selectedSearch
+                            
+                        }
+                    )
                 }
             } else {
                 BackNavigationBar(
@@ -79,6 +89,7 @@ struct SearchNavigationBar: View {
                         withAnimation {
                             isSearching = true
                         }
+                        onSearchIconTap?()
                     }
                 )
                 
@@ -92,5 +103,7 @@ struct SearchNavigationBar: View {
 }
 
 #Preview {
-    SearchNavigationBar(title: "질문보기")
+    @Previewable @State var searchText: String = ""
+    
+    SearchNavigationBar(title: "질문보기", searchText:  $searchText)
 }

@@ -22,7 +22,7 @@ import SwiftUI
 
 
 struct LogoNavigationBar: View {
-    var logoImage = Image("img_logo_ssumg")
+    var logoImage = Image("img_ssumg_logo")
     var alarm: Bool = false
     var alarmAction: (() -> Void)? = nil
 

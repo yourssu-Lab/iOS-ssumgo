@@ -18,89 +18,41 @@ struct ChatView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
+            ZStack(alignment: .bottomTrailing) {
+                VStack(spacing: 0) {
+                    if viewType == .mentee {
+                        FindMentorView()
+                    } else {
+                        ViewQuestionsView()
+                    }
+                }
+                
+
                 if viewType == .mentee {
-                    SearchNavigationBar(title: "멘토 찾기")
-                    
-                    ScrollView {
-                        MenteeView()
+                    CustomCircleButton(isActive: true) {
+                        print("Button tapped")
                     }
+                    .padding([.bottom, .trailing], 20)
                 } else {
-                    SearchNavigationBar(title: "질문 보기")
-                    ScrollView {
-                        MentorView()
+                    CustomCircleButton(
+                        isActive: true,
+                        iconImage: "ic_send",
+                        iconSize: 23
+                    ) {
+                        print("Button tapped")
                     }
+                    .padding([.bottom, .trailing], 20)
                 }
             }
         }
     }
 }
 
-struct MenteeView: View {
-    var body: some View {
-        GeometryReader { geometry in
-            VStack(alignment: .leading, spacing: 20) {
-                HStack(alignment: .top) {
-                    CustomAccordionButton(
-                        title: "과목",
-                        hasBorder: true,
-                        selectedBackgroundColor: .clear,
-                        textColor: .sGray2,
-                        items: ["컴퓨터시스템개론", "미디어제작및실습", "프로그래밍2및실습"],
-                        dropdownWidth: 95.06,
-                        action: { _ in print("과목 버튼 클릭") }
-                    )
-                    
-                    
-                    Spacer()
-                }
-                .zIndex(1)
 
-                
-                
-                HStack {
-                    Text("멘토 답변")
-                        .font(.pretendard(.bold, size: 18))
-                        .padding(.bottom, 3)
-                    
-                    Spacer()
-                    
-                    CustomTextButton( title: "전체보기", underline: true)
-                }
-                
-                ForEach(0..<2) { index in
-                    VStack(alignment: .leading, spacing: 13) {
-                        ChatPreview(chatType: .answer)
-                    }
-                }
-                
-                HStack {
-                    Text("나의 질문")
-                        .font(.pretendard(.bold, size: 18))
-                        .padding(.top, 2)
-                        .padding(.bottom, 3)
-                    
-                    Spacer()
-                    
-                    CustomTextButton( title: "전체보기", underline: true)
-                }
-                
-                ForEach(0..<2) { index in
-                    VStack(alignment: .leading, spacing: 13) {
-                        ChatPreview(chatType: .answer)
-                    }
-                    
-                }
-                
-                Spacer()
-            }
-            
-            .padding(16)
-        }
-    }
-}
 
 struct MentorView: View {
+    @State private var selectedSubject: String = ""
+    
     var body: some View {
         @State var filters: [(String, Bool)] = [
             ("영역", false),
@@ -123,7 +75,8 @@ struct MentorView: View {
                             textColor: filters[index].1 ? .white : .sGray3,
                             items: ["최신순", "인기순", "생성순"],
                             dropdownWidth:46,
-                            action: { _ in print("영역 버튼 클릭") }
+                            action: { _ in print("영역 버튼 클릭") },
+                            selectedItem: $selectedSubject
                         )
                         .padding(.bottom, 1)
                         Spacer()
@@ -176,7 +129,13 @@ struct MentorView: View {
                 
                 ForEach(0..<2) { index in
                     VStack(alignment: .leading, spacing: 16) {
-                        ChatPreview(chatType: .question)
+                        ChatPreview(
+                            chatType: .question,
+                            question: "안녕하세요",
+                            nickname: "wjdalswl",
+                            department: "soft",
+                            studentIdNumber: "1"
+                        )
                     }
                 }
             }
