@@ -8,24 +8,43 @@
 import SwiftUI
 
 struct SubjectView: View {
+    
     var iconName: String
     var subjectName: String
+    var subjectId: Int
+    
+    @State private var showPostWriteView = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 15)
-                    .frame(width: 63, height: 50)
-                    .foregroundStyle(Color("s_gray10p"))
-                
-                Image(iconName)
+        Button(action: {
+            print("과목ID: \(subjectId)")
+            showPostWriteView = true
+        }) {
+            VStack(spacing: 0) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 15)
+                        .frame(width: 63, height: 50)
+                        .foregroundStyle(Color("s_gray10p"))
+                    
+                    Image(iconName)
+                }
+                Text("\(subjectName)")
+                    .font(.pretendard(.semiBold, size: 12))
+                    .foregroundStyle(.black)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.top, 8)
             }
-            Text("\(subjectName)")
-                .font(.pretendard(.semiBold, size: 12))
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .padding(.top, 8)
+            .padding(.horizontal, 15)
         }
-        .padding(.horizontal, 15)
+        .background(
+            NavigationLink(
+                destination: PostWriteView(subjectId: subjectId)
+                    .navigationBarBackButtonHidden(true),
+                isActive: $showPostWriteView,
+                label: { EmptyView() }
+            )
+            .hidden()
+        )
     }
 }
