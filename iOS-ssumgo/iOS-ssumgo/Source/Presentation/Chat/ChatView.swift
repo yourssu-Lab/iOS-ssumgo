@@ -38,81 +38,95 @@ struct ChatView: View {
 
 struct MenteeView: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            CustomFilterButton(
-                title: "과목",
-                hasBorder: true,
-                selectedBackgroundColor: .clear,
-                textColor: .sGray2,
-                action: { print("과목 버튼 클릭") }
-            )
-            .padding(.bottom, 1)
-            
-            
-            HStack {
-                Text("멘토 답변")
-                    .font(.pretendard(.bold, size: 18))
-                    .padding(.bottom, 3)
-                
-                Spacer()
-                
-                CustomTextButton( title: "전체보기", underline: true)
-            }
-            
-            ForEach(0..<2) { index in
-                VStack(alignment: .leading, spacing: 13) {
-                    ChatPreview(chatType: .answer)
+        GeometryReader { geometry in
+            VStack(alignment: .leading, spacing: 20) {
+                HStack(alignment: .top) {
+                    CustomAccordionButton(
+                        title: "과목",
+                        hasBorder: true,
+                        selectedBackgroundColor: .clear,
+                        textColor: .sGray2,
+                        items: ["컴퓨터시스템개론", "미디어제작및실습", "프로그래밍2및실습"],
+                        dropdownWidth: 95.06,
+                        action: { _ in print("과목 버튼 클릭") }
+                    )
+                    
+                    
+                    Spacer()
                 }
-            }
-            
-            HStack {
-                Text("나의 질문")
-                    .font(.pretendard(.bold, size: 18))
-                    .padding(.top, 2)
-                    .padding(.bottom, 3)
+                .zIndex(1)
+
                 
-                Spacer()
                 
-                CustomTextButton( title: "전체보기", underline: true)
-            }
-            
-            ForEach(0..<2) { index in
-                VStack(alignment: .leading, spacing: 13) {
-                    ChatPreview(chatType: .answer)
+                HStack {
+                    Text("멘토 답변")
+                        .font(.pretendard(.bold, size: 18))
+                        .padding(.bottom, 3)
+                    
+                    Spacer()
+                    
+                    CustomTextButton( title: "전체보기", underline: true)
                 }
                 
+                ForEach(0..<2) { index in
+                    VStack(alignment: .leading, spacing: 13) {
+                        ChatPreview(chatType: .answer)
+                    }
+                }
+                
+                HStack {
+                    Text("나의 질문")
+                        .font(.pretendard(.bold, size: 18))
+                        .padding(.top, 2)
+                        .padding(.bottom, 3)
+                    
+                    Spacer()
+                    
+                    CustomTextButton( title: "전체보기", underline: true)
+                }
+                
+                ForEach(0..<2) { index in
+                    VStack(alignment: .leading, spacing: 13) {
+                        ChatPreview(chatType: .answer)
+                    }
+                    
+                }
+                
+                Spacer()
             }
             
-            Spacer()
+            .padding(16)
         }
-        
-        .padding(16)
     }
 }
 
 struct MentorView: View {
     var body: some View {
         @State var filters: [(String, Bool)] = [
-               ("영역", false),
-               ("학과", true),
-               ("학년", true),
-               ("교수", false),
-               ("과목", false)
-           ]
-           
+            ("영역", false),
+            ("학과", true),
+            ("학년", true),
+            ("교수", false),
+            ("과목", false)
+        ]
+        
         
         VStack(alignment: .leading, spacing: 16) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(filters.indices, id: \.self) { index in
-                        CustomFilterButton(
+                        CustomAccordionButton(
                             title: filters[index].0,
                             isSelected: filters[index].1,
                             selectedBackgroundColor: .sMain,
                             defaultBackgroundColor: .sGray10P,
                             textColor: filters[index].1 ? .white : .sGray3,
-                            action: { print("버튼 클릭") }
+                            items: ["최신순", "인기순", "생성순"],
+                            dropdownWidth:46,
+                            action: { _ in print("영역 버튼 클릭") }
                         )
+                        .padding(.bottom, 1)
+                        Spacer()
                     }
                 }
             }
@@ -141,8 +155,8 @@ struct MentorView: View {
             }
             .padding(.horizontal, 17.5)
             .background(.sGray10P)
-
-
+            
+            
             VStack(alignment: .leading, spacing: 16) {
                 HStack {
                     Text("멘티 질문")
@@ -171,8 +185,6 @@ struct MentorView: View {
         .padding(.vertical, 18)
     }
 }
-
-
 
 #Preview {
     ChatView(viewType: .mentee)
