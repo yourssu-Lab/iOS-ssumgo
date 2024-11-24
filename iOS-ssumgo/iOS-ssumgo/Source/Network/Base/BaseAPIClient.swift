@@ -44,6 +44,7 @@ final class BaseAPIClient {
                 }
                 
                 if httpResponse.statusCode == 401 {
+                    print("401에러")
                     throw APIError.unauthorized
                 }
                 
@@ -54,13 +55,34 @@ final class BaseAPIClient {
                 return output.data
             }
             .decode(type: BaseResponse<T>.self, decoder: decoder)
+            .catch { error -> AnyPublisher<BaseResponse<T>, Error> in
+                if let apiError = error as? APIError, apiError == .unauthorized {
+                    return self.refreshToken()
+                        .flatMap { _ -> AnyPublisher<BaseResponse<T>, Error> in
+                            var retryHeaders = headers
+                            if let newAccessToken = Config.accessToken {
+                                retryHeaders["Authorization"] = "Bearer \(newAccessToken)"
+                            }
+                            return self.performRequest(
+                                endpoint: endpoint,
+                                method: method,
+                                headers: retryHeaders,
+                                body: body,
+                                decoder: decoder
+                            )
+                            
+                        }
+                        .eraseToAnyPublisher()
+                }
+                return Fail(error: error).eraseToAnyPublisher()
+            }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
 }
-    
+
 // MARK: - Refresh Token
-    
+
 extension BaseAPIClient {
     private func refreshToken() -> AnyPublisher<Void, Error> {
         guard let refreshToken = Config.refreshToken else {

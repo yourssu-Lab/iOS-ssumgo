@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - APIError
 
-struct APIError: LocalizedError {
+struct APIError: LocalizedError, Equatable {
     let statusCode: Int
     let data: Data
 
@@ -19,6 +19,10 @@ struct APIError: LocalizedError {
     }
 
     static let unauthorized = APIError(statusCode: 401, data: Data())
+
+    static func == (lhs: APIError, rhs: APIError) -> Bool {
+        return lhs.statusCode == rhs.statusCode && lhs.data == rhs.data
+    }
 }
 
 struct ErrorResponse: Decodable {
