@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecentSearchView: View {
     @ObservedObject var recentSearchManager: RecentSearchManager
+    var onSelectSearch: ((String) -> Void)? = nil
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -29,22 +30,26 @@ struct RecentSearchView: View {
             }
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 9) {
+                HStack(spacing: 3) {
                     ForEach(recentSearchManager.recentSearches, id: \.self) { search in
-                        RecentSearchTag(
-                            text: search,
-                            onRemove: {
-                                withAnimation {
-                                    recentSearchManager.removeSearchTerm(search)
+                        Button(action: {
+                            onSelectSearch?(search)
+                        }) {
+                            RecentSearchTag(
+                                text: search,
+                                onRemove: {
+                                    withAnimation {
+                                        recentSearchManager.removeSearchTerm(search)
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
+                    .padding(.horizontal, 24)
                 }
-                .padding(.horizontal, 24)
             }
+            .padding(.bottom, 12)
         }
-        .padding(.bottom, 12)
     }
 }
 
