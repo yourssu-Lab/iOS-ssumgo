@@ -10,7 +10,7 @@ import SwiftUI
 /*
  - LogoNavigationBar: 로고와 알림 버튼을 포함한 네비게이션 바 컴포넌트
  - Parameters:
-        - logoImage: 네비게이션 바에 표시될 로고 이미지 (Image, 기본값: Image("img_logo_ssumg"))
+        - logoImage: 네비게이션 바에 표시될 로고 이미지 (Image, 기본값: Image("img_ssumg_logo"))
         - alarm: 알림 버튼 표시 여부 (Bool, 기본값: false)
         - alarmAction: 알림 버튼 클릭 시 실행할 동작 (클로저, 기본값: nil)
  - Example:
@@ -22,7 +22,7 @@ import SwiftUI
 
 
 struct LogoNavigationBar: View {
-    var logoImage = Image("img_logo_ssumg")
+    var logoImage = Image("img_ssumg_logo")
     var alarm: Bool = false
     var alarmAction: (() -> Void)? = nil
 

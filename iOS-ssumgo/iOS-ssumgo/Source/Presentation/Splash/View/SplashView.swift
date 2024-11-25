@@ -15,7 +15,7 @@ struct SplashView: View {
             VStack {
                 Spacer()
                 
-                Image("img_logo_ssumg")
+                Image("img_ssumg_logo")
                     .resizable()
                     .scaledToFit()
                     .frame(height: 48)
