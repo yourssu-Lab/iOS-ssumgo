@@ -1,5 +1,5 @@
 //
-//  AllFindMentorViewModel.swift
+//  GetMentorCommentsViewModel.swift
 //  iOS-ssumgo
 //
 //  Created by 정민지 on 11/24/24.
@@ -8,10 +8,9 @@
 import Combine
 import SwiftUI
 
-GetMentorCommentsDAO
 
 final class GetMentorCommentsViewModel: ObservableObject {
-    @Published var mentorAnswers: [CommentEntity] = []
+    @Published var mentorComments: [CommentEntity] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var subjectId: Int? = nil
@@ -19,11 +18,11 @@ final class GetMentorCommentsViewModel: ObservableObject {
     @Published var sortBy: String = "latest"
     
     private var cancellables = Set<AnyCancellable>()
-    private let GetQuestionsBySubjectDAO = GetQuestionsBySubjectDAO()
+    private let getMentorCommentsDAO = GetMentorCommentsDAO()
     
     func getMentorComments() {
         isLoading = true
-        GetQuestionsBySubjectDAO.getQuestionsBySubject(
+        getMentorCommentsDAO.getMentorComments (
             subjectId: subjectId ?? 0,
             page: 1,
             sortBy: sortBy,
@@ -39,7 +38,7 @@ final class GetMentorCommentsViewModel: ObservableObject {
                 break
             }
         }, receiveValue: { [weak self] response in
-            self?.mentorAnswers = response.commentsList
+            self?.mentorComments = response.commentsList
         })
         .store(in: &cancellables)
     }

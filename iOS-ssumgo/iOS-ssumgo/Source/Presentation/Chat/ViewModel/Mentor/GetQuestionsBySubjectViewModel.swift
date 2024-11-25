@@ -1,5 +1,5 @@
 //
-//  MentorAllQuestionsViewModel.swift
+//  GetQuestionsBySubjectViewModel.swift
 //  iOS-ssumgo
 //
 //  Created by 정민지 on 11/24/24.
@@ -8,10 +8,8 @@
 import Combine
 import SwiftUI
 
-GetMyCommentsDAO
-
-final class MentorAllQuestionsViewModel: ObservableObject {
-    @Published var myQuestions: [PostEntity] = []
+final class GetQuestionsBySubjectViewModel: ObservableObject {
+    @Published var menteeQuestions: [PostEntity] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var query: String = ""
@@ -19,16 +17,22 @@ final class MentorAllQuestionsViewModel: ObservableObject {
     @Published var sortBy: String = "latest"
     
     private var cancellables = Set<AnyCancellable>()
-    private let GetQuestionsBySubjectDAO = GetQuestionsBySubjectDAO()
+    
+    private let getQuestionsBySubjectDAO = GetQuestionsBySubjectDAO()
     
     func fetchMyQuestions() {
         guard let subjectId = subjectId else {
-            myQuestions = []
+            menteeQuestions = []
             return
         }
 
         isLoading = true
-        GetQuestionsBySubjectDAO.getQuestionsBySubject(subjectId: subjectId, page: 1, sortBy: sortBy, size: 10)
+        getQuestionsBySubjectDAO.getQuestionsBySubject(
+            subjectId: subjectId,
+            page: 1,
+            sortBy: sortBy,
+            size: 10
+        )
             .sink(receiveCompletion: { [weak self] completion in
                 self?.isLoading = false
                 switch completion {
@@ -38,7 +42,7 @@ final class MentorAllQuestionsViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.myQuestions = response.postsList
+                self?.menteeQuestions = response.postsList
             })
             .store(in: &cancellables)
     }

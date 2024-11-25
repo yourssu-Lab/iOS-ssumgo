@@ -1,5 +1,5 @@
 //
-//  AllFindMentorView.swift
+//  GetMentorCommentsView.swift
 //  iOS-ssumgo
 //
 //  Created by 정민지 on 11/24/24.
@@ -7,18 +7,13 @@
 
 import SwiftUI
 
-struct AllFindMentorView: View {
-    @StateObject private var viewModel = AllFindMentorViewModel()
+struct GetMentorCommentsView: View {
+    @StateObject private var viewModel = GetMentorCommentsViewModel()
+    
     @State private var isSearching: Bool = false
     @State private var selectedSubject: String = ""
     @State private var selectedSortBy: String = ""
     @State private var searchText: String = ""
-    
-    let subjects: [String: Int] = [
-        "컴퓨터시스템개론": 1,
-        "미디어제작및실습": 2,
-        "프로그래밍2및실습": 3
-    ]
     
     let sortBys: [String] = [
         "최신순",
@@ -59,15 +54,24 @@ struct AllFindMentorView: View {
                                         hasBorder: true,
                                         selectedBackgroundColor: .clear,
                                         textColor: .sGray2,
-                                        items: Array(subjects.keys),
+                                        items: [
+                                            SubjectManager.shared.subjectName1,
+                                            SubjectManager.shared.subjectName2,
+                                            SubjectManager.shared.subjectName3
+                                        ],
                                         dropdownWidth: 95.06,
                                         action: { selected in
-                                            if let subjectId = subjects[selected] {
-                                                viewModel.subjectId = subjectId
-                                            } else {
+                                            selectedSubject = selected
+                                            switch selected {
+                                            case SubjectManager.shared.subjectName1:
+                                                viewModel.subjectId = SubjectManager.shared.subjectId1
+                                            case SubjectManager.shared.subjectName2:
+                                                viewModel.subjectId = SubjectManager.shared.subjectId2
+                                            case SubjectManager.shared.subjectName3:
+                                                viewModel.subjectId = SubjectManager.shared.subjectId3
+                                            default:
                                                 viewModel.subjectId = nil
                                             }
-                                            viewModel.fetchMentorAnswers()
                                         },
                                         selectedItem: $selectedSubject
                                     )
@@ -103,14 +107,14 @@ struct AllFindMentorView: View {
                             .zIndex(1)
                         }
                         
-                        if viewModel.mentorAnswers.isEmpty {
+                        if viewModel.mentorComments.isEmpty {
                             Text("멘토 답변이 없습니다.")
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .font(.pretendard(.regular, size: 14))
                                 .foregroundColor(.sGray2)
                                 .padding(.bottom, 10)
                         } else {
-                            ForEach(viewModel.mentorAnswers, id: \.commentId) { comment in
+                            ForEach(viewModel.mentorComments, id: \.commentId) { comment in
                                 ChatPreview(
                                     chatType: .answer,
                                     question: comment.post.title,
@@ -127,7 +131,7 @@ struct AllFindMentorView: View {
             }
         }
         .onAppear {
-            viewModel.fetchMentorAnswers()
+            viewModel.getMentorComments()
         }
         .onChange(of: searchText) { newSearchText in
             viewModel.query = newSearchText
@@ -136,6 +140,6 @@ struct AllFindMentorView: View {
 }
 
 #Preview {
-    AllFindMentorView()
+    GetMentorCommentsView()
 }
 
