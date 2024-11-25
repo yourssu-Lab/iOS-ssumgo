@@ -86,7 +86,6 @@ struct GetMentorCommentsView: View {
                                 
                                 HStack(alignment: .top) {
                                     Text("멘토 답변")
-                                        .font(.pretendard(.bold, size: 18))
                                         .padding(.top, 2)
                                         .padding(.bottom, 3)
                                     
