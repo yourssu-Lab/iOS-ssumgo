@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+// MARK:  수강 과목 조회 API
+
 final class SubjectsInquiryDAO {
     func fetchSubjects() -> AnyPublisher<[SubjectEntity], Error> {
         return BaseAPIClient.shared.performRequest(

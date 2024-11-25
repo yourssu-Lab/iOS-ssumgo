@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+// MARK:  수강 과목 등록 API
+
 final class SubjectsRegistrationDAO {
     func registerSubject(subject: SubjectsRegistrationDTO) -> AnyPublisher<[SubjectEntity], Error> {
         let endpoint = "/subjects/students"

@@ -8,7 +8,7 @@
 import Combine
 import SwiftUI
 
-// MARK: - 과목별 질문 조회 API
+// MARK: - 과목별 질문 조회 API, 멘티 질문 조회 API
 
 final class GetQuestionsBySubjectDAO {
     func getQuestionsBySubject(
@@ -17,19 +17,20 @@ final class GetQuestionsBySubjectDAO {
         sortBy: String = "latest",
         size: Int = 10,
         query: String? = nil
-    ) -> AnyPublisher<CommentsResponseDTO, Error> {
-        var endpoint = "/posts/subjects/\(subjectId)/comments?page=\(page)&sortBy=\(sortBy)&size=\(size)"
+    ) -> AnyPublisher<PostsResponseDTO, Error> {
+        var endpoint = "/posts/subjects/\(subjectId)?page=\(page)&sortBy=\(sortBy)&size=\(size)"
         
-        if let query = query, !query.isEmpty {
-            endpoint += "&q=\(query)"
-        }
+        // 아직 검색어 기능 없음
+//        if let query = query, !query.isEmpty {
+//            endpoint += "&q=\(query)"
+//        }
         
         return BaseAPIClient.shared.performRequest(
             endpoint: endpoint,
             method: .get,
             headers: Config.headerWithAccessToken
         )
-        .tryMap { (response: BaseResponse<CommentsResponseDTO>) in
+        .tryMap { (response: BaseResponse<PostsResponseDTO>) in
             guard let result = response.result else {
                 throw URLError(.badServerResponse)
             }
@@ -38,3 +39,4 @@ final class GetQuestionsBySubjectDAO {
         .eraseToAnyPublisher()
     }
 }
+

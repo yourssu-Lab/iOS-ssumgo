@@ -1,11 +1,11 @@
 //
-//  PopularCommentDTO.swift
+//  PopularCommentEntity.swift
 //  iOS-ssumgo
 //
 //  Created by 서준영 on 11/23/24.
 //
 
-struct PopularCommentDTO: Decodable, Identifiable {
+struct PopularCommentEntity: Decodable, Identifiable {
     let commentId: Int
     let post: PostProfile
     let mentor: MentorProfile
