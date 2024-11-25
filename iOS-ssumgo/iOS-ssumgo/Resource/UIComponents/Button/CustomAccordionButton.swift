@@ -14,7 +14,7 @@ struct CustomAccordionButton: View {
     var selectedBackgroundColor: Color = .sMain
     var defaultBackgroundColor: Color = .clear
     var activeBorderColor: Color = .sMain
-    var borderColor: Color = .sGray 
+    var borderColor: Color = .sGray
     var textColor: Color = .white
     var items: [String]
     var dropdownWidth: CGFloat? = nil
@@ -22,7 +22,7 @@ struct CustomAccordionButton: View {
 
     @State private var isDropdownVisible: Bool = false
     @State private var buttonFrame: CGRect = .zero
-    @State private var selectedItem: String = ""
+    @Binding var selectedItem: String
     @State private var highlightedIndex: Int? = nil
 
     var body: some View {
@@ -138,6 +138,8 @@ struct CustomAccordionButton: View {
 
 
 #Preview {
+    @State var selectedSubject: String = ""
+    
     ZStack {
         Color.gray.opacity(0.1).edgesIgnoringSafeArea(.all)
         VStack(spacing: 20) {
@@ -148,7 +150,8 @@ struct CustomAccordionButton: View {
                 textColor: .sGray2,
                 items: ["컴퓨터시스템개론", "미디어제작및실습", "프로그래밍2및실습"],
                 dropdownWidth: 95.06,
-                action: { _ in print("과목 버튼 클릭") }
+                action: { _ in print("과목 버튼 클릭") },
+                selectedItem: $selectedSubject
             )
             
             CustomAccordionButton(
@@ -157,7 +160,8 @@ struct CustomAccordionButton: View {
                 textColor: .sGray,
                 items: ["최신순", "인기순", "생성순"],
                 dropdownWidth:46,
-                action: { _ in print("영역 버튼 클릭") }
+                action: { _ in print("영역 버튼 클릭") },
+                selectedItem: $selectedSubject
             )
             
             CustomAccordionButton(
@@ -166,17 +170,18 @@ struct CustomAccordionButton: View {
                 defaultBackgroundColor: .sGray10P,
                 textColor: .sGray3,
                 items: ["최신순", "인기순", "생성순"],
-                action: { _ in print("영역 버튼 클릭") }
+                action: { _ in print("영역 버튼 클릭") },
+                selectedItem: $selectedSubject
             )
             
             CustomAccordionButton(
                 title: "학과",
-                
                 isSelected: true,
                 selectedBackgroundColor: .sMain,
                 textColor: .white,
                 items: ["최신순", "인기순", "생성순"],
-                action: { _ in print("학과 버튼 클릭") }
+                action: { _ in print("학과 버튼 클릭") },
+                selectedItem: $selectedSubject
             )
         }
         .padding()
