@@ -21,6 +21,7 @@ struct DrawersView: View {
     var body: some View {
         VStack {
             BackNavigationBar(
+                rightIcon: false,
                 title: "보관함",
                 onLeftIconTap: {
                     navigationManager.pop()
