@@ -40,6 +40,8 @@ struct SearchNavigationBar: View {
     @State private var isSearching: Bool = false
     
     @Binding  var searchText: String
+    
+    var onBackTap: (() -> Void)? = nil
     var onSearchIconTap: (() -> Void)? = nil
     var onCancelSearch: (() -> Void)? = nil
     
@@ -85,6 +87,9 @@ struct SearchNavigationBar: View {
                     rightIcon: true,
                     rightIconImage: "ic_magnifying_glass",
                     title: "\(title)",
+                    onLeftIconTap: {
+                        onBackTap?()
+                    },
                     onRightIconTap:  {
                         withAnimation {
                             isSearching = true
@@ -105,5 +110,9 @@ struct SearchNavigationBar: View {
 #Preview {
     @Previewable @State var searchText: String = ""
     
-    SearchNavigationBar(title: "질문보기", searchText:  $searchText)
+    SearchNavigationBar(
+        title: "질문보기",
+        back: true,
+        searchText:  $searchText
+    )
 }

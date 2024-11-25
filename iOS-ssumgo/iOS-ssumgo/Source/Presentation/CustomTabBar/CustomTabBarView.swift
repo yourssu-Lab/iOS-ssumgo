@@ -5,7 +5,6 @@
 //  Created by 정민지 on 11/16/24.
 //
 
-
 import SwiftUI
 
 enum TabBarType {
@@ -20,6 +19,8 @@ enum BottomTab: String, CaseIterable {
 }
 
 struct CustomTabBarView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
+    
     @State private var selectedTab: BottomTab = .home
     @State var tabBarType: TabBarType
     
@@ -29,17 +30,22 @@ struct CustomTabBarView: View {
                 switch selectedTab {
                 case .home:
                     SsumgoMainView()
+                        .environmentObject(navigationManager)
                 case .chat:
                     if tabBarType == .mentee {
                         ChatView(viewType: .mentee)
+                            .environmentObject(navigationManager)
                     } else {
                         ChatView(viewType: .mentor)
+                            .environmentObject(navigationManager)
                     }
                 case .mypage:
                     if tabBarType == .mentee {
                         MyPageView(myPageType: .mentee)
+                            .environmentObject(navigationManager)
                     } else {
                         MyPageView(myPageType: .mentor)
+                            .environmentObject(navigationManager)
                     }
                 }
             }
@@ -54,6 +60,7 @@ struct CustomTabBarView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 }
+
 
 struct CustomTabBar: View {
     @Binding var selectedTab: BottomTab
@@ -85,7 +92,7 @@ struct CustomTabBar: View {
                 }
             }
         }
-        .frame(height: 76)
+        .frame(height: 83)
         .padding(.horizontal, 53)
         .background(.white)
     }
@@ -119,5 +126,10 @@ struct TabButton: View {
 }
 
 #Preview {
-    CustomTabBarView(tabBarType: .mentor)
+    @Previewable @StateObject var navigationManager = NavigationManager()
+    
+    NavigationStack(path: $navigationManager.path) {
+        CustomTabBarView(tabBarType: .mentor)
+            .environmentObject(navigationManager)
+    }
 }

@@ -14,7 +14,6 @@ final class LoginViewModel: ObservableObject {
     @Published var isLoginEnabled: Bool = false
     @Published var errorMessage: String? = nil
     @Published var isLoginSuccessful: Bool = false
-    @Published var isSignUpTapped: Bool = false
 
     private var cancellables = Set<AnyCancellable>()
     private let emailDomain = "@soongsil.ac.kr"

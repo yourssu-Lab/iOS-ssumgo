@@ -9,13 +9,14 @@ import SwiftUI
 import YDS_SwiftUI
 
 struct TermsOfServiceView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
 
     var body: some View {
             BackNavigationBar(
                 rightIcon: false,
                 title: "이용약관",
                 onLeftIconTap: {
-                   print("back")
+                    navigationManager.pop()
                 }
             )
             
@@ -83,5 +84,8 @@ struct TermsOfServiceView: View {
 }
 
 #Preview {
+    let navigationManager = NavigationManager()
+    
     TermsOfServiceView()
+        .environmentObject(navigationManager)
 }

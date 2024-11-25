@@ -37,14 +37,5 @@ struct SubjectView: View {
             }
             .padding(.horizontal, 15)
         }
-        .background(
-            NavigationLink(
-                destination: PostWriteView(subjectId: subjectId)
-                    .navigationBarBackButtonHidden(true),
-                isActive: $showPostWriteView,
-                label: { EmptyView() }
-            )
-            .hidden()
-        )
     }
 }

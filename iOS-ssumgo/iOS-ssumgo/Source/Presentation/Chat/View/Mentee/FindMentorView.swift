@@ -9,9 +9,11 @@ import SwiftUI
 import YDS_SwiftUI
 
 struct FindMentorView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject private var viewModel = FindMentorViewModel()
     @State private var isSearching: Bool = false
     @State private var selectedSubject: String = ""
+    @State private var selectedSubjectId: Int? = nil
     @State private var searchText: String = ""
     
     var body: some View {
@@ -57,10 +59,13 @@ struct FindMentorView: View {
                                         switch selected {
                                         case SubjectManager.shared.subjectName1:
                                             viewModel.subjectId = SubjectManager.shared.subjectId1
+                                            selectedSubjectId = SubjectManager.shared.subjectId1
                                         case SubjectManager.shared.subjectName2:
                                             viewModel.subjectId = SubjectManager.shared.subjectId2
+                                            selectedSubjectId = SubjectManager.shared.subjectId2
                                         case SubjectManager.shared.subjectName3:
                                             viewModel.subjectId = SubjectManager.shared.subjectId3
+                                            selectedSubjectId = SubjectManager.shared.subjectId3
                                         default:
                                             viewModel.subjectId = nil
                                         }
@@ -79,7 +84,13 @@ struct FindMentorView: View {
                             
                             Spacer()
                             
-                            CustomTextButton(title: "전체보기", underline: true)
+                            CustomTextButton(
+                                title: "전체보기",
+                                action: {
+                                    navigationManager.append(.getMentorCommentsView)
+                                },
+                                    underline: true
+                            )
                         }
                         if viewModel.mentorComments.isEmpty {
                             Text("멘토 답변이 없습니다.")
@@ -108,7 +119,12 @@ struct FindMentorView: View {
                             
                             Spacer()
                             
-                            CustomTextButton(title: "전체보기", underline: true)
+                            CustomTextButton(
+                                title: "전체보기",
+                                action: {
+                                    navigationManager.append(.getMyQuestionsView)
+                                },
+                                underline: true)
                         }
                         if viewModel.myQuestions.isEmpty {
                             Text("나의 질문이 없습니다.")
@@ -133,6 +149,21 @@ struct FindMentorView: View {
                     .padding(16)
                 }
             }
+            
+            CustomCircleButton(
+                isActive: true,
+                action: {
+                    guard let subjectId = selectedSubjectId else {
+                        DispatchQueue.main.async {
+                            YDSToast("과목 필터를 선택해주세요.", duration: .short, haptic: .failed)
+                        }
+                        return
+                    }
+                    navigationManager.append(.postWriteView(subjectId: subjectId))
+                }
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            .padding([.bottom, .trailing], 20)
         }
         .onAppear {
             viewModel.getMentorComments(subjectId: nil, query: "", sortBy: "latest")
@@ -141,6 +172,7 @@ struct FindMentorView: View {
         .onChange(of: searchText) { newSearchText in
             viewModel.query = newSearchText
         }
+        .registerYDSToast()
     }
 }
 

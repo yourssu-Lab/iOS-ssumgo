@@ -25,6 +25,7 @@ import SwiftUI
 struct BackNavigationBar: View {
     var back: Bool = true
     var rightIcon: Bool = true
+    var leftIconImage: String?
     var rightIconImage: String? = "ic_magnifying_glass"
     var iconSize: CGFloat = 28
     var title: String
@@ -37,7 +38,7 @@ struct BackNavigationBar: View {
                 Button(action: {
                     onLeftIconTap?()
                 }) {
-                    Image("ic_left_arrow")
+                    Image(leftIconImage ?? "ic_left_arrow")
                         .resizable()
                         .frame(width: 8.17, height: 20)
                         .foregroundColor(.black)

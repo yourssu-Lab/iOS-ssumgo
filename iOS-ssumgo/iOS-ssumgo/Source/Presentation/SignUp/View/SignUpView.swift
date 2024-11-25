@@ -15,6 +15,8 @@ class CustomWebView: WKWebView {
 }
 
 struct SignUpWebView: UIViewRepresentable {
+    @EnvironmentObject var navigationManager: NavigationManager
+    
     let urlString: String
     @Binding var navigateToEmailAuth: Bool
     @Binding var email: String
@@ -104,20 +106,23 @@ struct SignUpWebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+        Coordinator(self, navigationManager: navigationManager)
     }
 
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
         var parent: SignUpWebView
+        var navigationManager: NavigationManager
 
-        init(_ parent: SignUpWebView) {
+        init(_ parent: SignUpWebView, navigationManager: NavigationManager) {
             self.parent = parent
+            self.navigationManager = navigationManager
         }
 
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
             if message.name == "buttonClickHandler" {
+                let emailValue = parent.email
                 DispatchQueue.main.async {
-                    self.parent.navigateToEmailAuth = true
+                    self.navigationManager.append(.emailAuthView(email: "\(emailValue)@soongsil.ac.kr"))
                 }
             } else if message.name == "emailHandler", let emailValue = message.body as? String {
                 DispatchQueue.main.async {
@@ -126,7 +131,6 @@ struct SignUpWebView: UIViewRepresentable {
             } else {
                 print("Unhandled message: \(message.name)")
             }
-
         }
 
         // 외부 URL 오픈
@@ -155,40 +159,35 @@ struct SignUpWebView: UIViewRepresentable {
 }
 
 struct SignUpView: View {
-    @State private var backButton = false
+    @EnvironmentObject var navigationManager: NavigationManager
     @State private var navigateToEmailAuth = false
-    @State private var navigateToBack = false
     @State private var email: String = ""
     
     var body: some View {
-        NavigationStack {
-            BackNavigationBar(
-                rightIcon: false,
-                title: "",
-                onLeftIconTap: {
-                    navigateToBack = true
-                }
+        BackNavigationBar(
+            rightIcon: false,
+            title: "",
+            onLeftIconTap: {
+                navigationManager.pop()
+            }
+        )
+        
+        VStack {
+            SignUpWebView(
+                urlString: "\(Config.signupWebURL)",
+                navigateToEmailAuth: $navigateToEmailAuth,
+                email: $email
             )
-            
-            VStack {
-                SignUpWebView(
-                    urlString: "\(Config.signupWebURL)",
-                    navigateToEmailAuth: $navigateToEmailAuth,
-                    email: $email
-                )
-                
-            }
-            .navigationDestination(isPresented: $navigateToEmailAuth) {
-                EmailAuthView(email: "\(email)@soongsil.ac.kr")
-            }
-            .navigationDestination(isPresented: $navigateToBack) {
-                LoginView()
-            }
         }
         .navigationBarHidden(true)
     }
 }
 
 #Preview {
-    SignUpView()
+    @Previewable @StateObject var navigationManager = NavigationManager()
+    
+    NavigationStack(path: $navigationManager.path) {
+        SignUpView()
+            .environmentObject(navigationManager)
+    }
 }

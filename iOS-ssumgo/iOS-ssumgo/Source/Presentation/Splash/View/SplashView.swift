@@ -8,44 +8,45 @@
 import SwiftUI
 
 struct SplashView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject private var viewModel = SplashViewModel()
-
+    
     var body: some View {
-        NavigationStack {
-            VStack {
-                Spacer()
-                
-                Image("img_ssumg_logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 48)
-                
-                Spacer()
-                
-                CustomBoxButton(
-                    title: "숭실숨고 시작하기",
-                    action: {
+        VStack {
+            Spacer()
+            
+            Image("img_ssumg_logo")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 48)
+            
+            Spacer()
+            
+            CustomBoxButton(
+                title: "숭실숨고 시작하기",
+                action: {
+                    DispatchQueue.main.async {
                         viewModel.checkAuthentication()
-                    },
-                    kerning: (16 * (-0.4 / 100))
-                )
-                .padding(.horizontal, 24)
-            }
-            .navigationDestination(isPresented: $viewModel.navigateToLogin) {
-                NavigationStack {
-                    LoginView()
-                }
-            }
-            .navigationDestination(isPresented: $viewModel.navigateToMain) {
-                NavigationStack {
-                    CustomTabBarView(tabBarType: .mentee)
-                }
-            }
+                        if viewModel.navigateToMain {
+                            navigationManager.setRoot(.customTabBarView(tabBarType: .mentee))
+                        } else {
+                            navigationManager.setRoot(.loginView)
+                        }
+                    }
+                },
+                kerning: (16 * (-0.4 / 100))
+            )
+            .padding(.horizontal, 24)
         }
         .navigationBarHidden(true)
-    }        
+    }
 }
 
 #Preview {
-    SplashView()
+    @Previewable @StateObject var navigationManager = NavigationManager()
+    
+    NavigationStack(path: $navigationManager.path) {
+        SplashView()
+            .environmentObject(navigationManager)
+    }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 import YDS_SwiftUI
 
 struct GetQuestionsBySubjectView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject private var viewModel = GetQuestionsBySubjectViewModel()
     
     @State private var isSearching: Bool = false
@@ -28,6 +29,9 @@ struct GetQuestionsBySubjectView: View {
                 title: "질문 보기",
                 back: true,
                 searchText: $searchText,
+                onBackTap: {
+                    navigationManager.pop()
+                },
                 onSearchIconTap: {
                     withAnimation {
                         isSearching = true
@@ -132,6 +136,7 @@ struct GetQuestionsBySubjectView: View {
         .onChange(of: searchText) { newSearchText in
             viewModel.query = newSearchText
         }
+        .navigationBarHidden(true)
     }
 }
 

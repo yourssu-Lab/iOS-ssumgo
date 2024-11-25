@@ -14,34 +14,16 @@ enum ChatViewType {
 }
 
 struct ChatView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @State var viewType: ChatViewType
     
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .bottomTrailing) {
-                VStack(spacing: 0) {
-                    if viewType == .mentee {
-                        FindMentorView()
-                    } else {
-                        ViewQuestionsView()
-                    }
-                }
-                
-
+        ZStack(alignment: .bottomTrailing) {
+            VStack(spacing: 0) {
                 if viewType == .mentee {
-                    CustomCircleButton(isActive: true) {
-                        print("Button tapped")
-                    }
-                    .padding([.bottom, .trailing], 20)
+                    FindMentorView()
                 } else {
-                    CustomCircleButton(
-                        isActive: true,
-                        iconImage: "ic_send",
-                        iconSize: 23
-                    ) {
-                        print("Button tapped")
-                    }
-                    .padding([.bottom, .trailing], 20)
+                    ViewQuestionsView()
                 }
             }
         }
@@ -49,6 +31,7 @@ struct ChatView: View {
 }
 
 
+// TODO: - 추후 삭제 예정
 
 struct MentorView: View {
     @State private var selectedSubject: String = ""

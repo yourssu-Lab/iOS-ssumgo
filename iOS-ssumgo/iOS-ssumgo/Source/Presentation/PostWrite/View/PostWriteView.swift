@@ -10,6 +10,7 @@ import Combine
 
 // 키보드 상태 추적 객체
 class KeyboardGuardian: ObservableObject {
+    
     @Published var isKeyboardVisible: Bool = false
     
     private var cancellableSet: Set<AnyCancellable> = []
@@ -30,26 +31,25 @@ class KeyboardGuardian: ObservableObject {
 }
 
 struct PostWriteView: View {
-    
+    @EnvironmentObject var navigationManager: NavigationManager
     @FocusState private var isKeyboardActive: Bool // 키보드 상태 추적
     @StateObject private var keyboardGuardian = KeyboardGuardian() // 키보드 상태 객체
     @StateObject private var viewModel = PostWriteViewModel()
     
-    @Environment(\.presentationMode) var presentationMode
-    
-    let subjectId: Int
+    let subjectId: Int?
     
     var body: some View {
         VStack(spacing: 0) {
-            // FIXME: 백버튼이 아닌 X 로 왼쪽 아이콘 설정해야함
             BackNavigationBar(
                 back: true,
                 rightIcon: false,
+                leftIconImage: "ic_x",
                 title: "질문등록",
                 onLeftIconTap: {
-                    presentationMode.wrappedValue.dismiss()
+                    navigationManager.pop()
                 }
             )
+            
             Divider()
             
             ScrollView {
@@ -95,7 +95,7 @@ struct PostWriteView: View {
                             title: "작성하기",
                             action: {
                                 viewModel.submitPost()
-                                presentationMode.wrappedValue.dismiss()
+                                navigationManager.pop()
                             },
                             isDisabled: viewModel.title.isEmpty,
                             kerning: -0.24
@@ -133,8 +133,9 @@ struct PostWriteView: View {
             isKeyboardActive = false // 배경 탭으로 키보드 닫기
         }
         .onAppear {
-            viewModel.subjectId = subjectId
+            viewModel.subjectId = subjectId ?? 0
         }
+        .navigationBarHidden(true)
     }
 }
 

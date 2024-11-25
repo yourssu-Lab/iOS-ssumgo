@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct NotificationView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     
     private let rectWidth: CGFloat = 339
     
     @State var notRead: Bool = true
     var recent7Days: Bool = true
     var recent30Days: Bool = true
-    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack(spacing: 0) {
@@ -22,7 +22,7 @@ struct NotificationView: View {
                 rightIcon: false,
                 title: "알림",
                 onLeftIconTap: {
-                    presentationMode.wrappedValue.dismiss()
+                    navigationManager.pop()
                 }
             )
             Divider()
@@ -107,16 +107,20 @@ struct NotificationView: View {
                 }
             }
         }
+        .navigationBarHidden(true)
     }
 }
 
 #Preview {
+    let navigationManager = NavigationManager()
+    
     NotificationView()
+        .environmentObject(navigationManager)
 }
 
 // MARK: - todolist
 /*
  - [x] 알림 없을 때 빈 화면 구현
- - [ ] 커스텀 탭바 적용
+ - [x] 커스텀 탭바 적용
  - [ ] API 연결
  */

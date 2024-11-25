@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GetMentorCommentsView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject private var viewModel = GetMentorCommentsViewModel()
     
     @State private var isSearching: Bool = false
@@ -26,6 +27,9 @@ struct GetMentorCommentsView: View {
                 title: "멘토 찾기",
                 back: true,
                 searchText: $searchText,
+                onBackTap: {
+                    navigationManager.pop()
+                },
                 onSearchIconTap: {
                     withAnimation {
                         isSearching = true
@@ -136,6 +140,7 @@ struct GetMentorCommentsView: View {
         .onChange(of: searchText) { newSearchText in
             viewModel.query = newSearchText
         }
+        .navigationBarHidden(true)
     }
 }
 
