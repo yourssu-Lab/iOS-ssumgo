@@ -63,7 +63,11 @@ final class FindMentorViewModel: ObservableObject {
                 break
             }
         }, receiveValue: { [weak self] response in
-            self?.mentorComments = response.commentsList
+            DispatchQueue.main.async {
+                self?.mentorComments.removeAll()
+                self?.mentorComments = response.commentsList
+                print("Updated mentorComments:", self?.mentorComments ?? [])
+            }
         })
         .store(in: &cancellables)
     }
@@ -82,7 +86,11 @@ final class FindMentorViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.myQuestions = response.postsList
+                DispatchQueue.main.async {
+                    self?.myQuestions.removeAll()
+                    self?.myQuestions = response.postsList
+                    print("Updated mentorComments:", self?.myQuestions ?? [])
+                }
             })
             .store(in: &cancellables)
     }

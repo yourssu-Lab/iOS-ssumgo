@@ -42,7 +42,9 @@ final class GetQuestionsBySubjectViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.menteeQuestions = response.postsList
+                DispatchQueue.main.async {
+                    self?.menteeQuestions = response.postsList
+                }
             })
             .store(in: &cancellables)
     }

@@ -17,136 +17,139 @@ struct FindMentorView: View {
     @State private var searchText: String = ""
     
     var body: some View {
-        VStack {
-            SearchNavigationBar(
-                title: "멘토 찾기",
-                searchText: $searchText,
-                onSearchIconTap: {
-                    withAnimation {
-                        isSearching = true
+        ZStack {
+            VStack {
+                SearchNavigationBar(
+                    title: "멘토 찾기",
+                    searchText: $searchText,
+                    onSearchIconTap: {
+                        withAnimation {
+                            isSearching = true
+                        }
+                    },
+                    onCancelSearch: {
+                        withAnimation {
+                            isSearching = false
+                            searchText = ""
+                            viewModel.query = ""
+                        }
                     }
-                },
-                onCancelSearch: {
-                    withAnimation {
-                        isSearching = false
-                        searchText = ""
-                        viewModel.query = ""
-                    }
-                }
-            )
-            
-            if viewModel.isLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            } else {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        if !isSearching {
-                            HStack(alignment: .top) {
-                                CustomAccordionButton(
-                                    title: "과목",
-                                    hasBorder: true,
-                                    selectedBackgroundColor: .clear,
-                                    textColor: .sGray2,
-                                    items: [
-                                        SubjectManager.shared.subjectName1,
-                                        SubjectManager.shared.subjectName2,
-                                        SubjectManager.shared.subjectName3
-                                    ],
-                                    dropdownWidth: 95.06,
-                                    action: { selected in
-                                        selectedSubject = selected
-                                        switch selected {
-                                        case SubjectManager.shared.subjectName1:
-                                            viewModel.subjectId = SubjectManager.shared.subjectId1
-                                            selectedSubjectId = SubjectManager.shared.subjectId1
-                                        case SubjectManager.shared.subjectName2:
-                                            viewModel.subjectId = SubjectManager.shared.subjectId2
-                                            selectedSubjectId = SubjectManager.shared.subjectId2
-                                        case SubjectManager.shared.subjectName3:
-                                            viewModel.subjectId = SubjectManager.shared.subjectId3
-                                            selectedSubjectId = SubjectManager.shared.subjectId3
-                                        default:
-                                            viewModel.subjectId = nil
-                                        }
-                                    },
-                                    selectedItem: $selectedSubject
-                                )
+                )
+                
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                } else {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 20) {
+                            if !isSearching {
+                                HStack(alignment: .top) {
+                                    CustomAccordionButton(
+                                        title: "과목",
+                                        hasBorder: true,
+                                        selectedBackgroundColor: .clear,
+                                        textColor: .sGray2,
+                                        items: [
+                                            SubjectManager.shared.subjectName1,
+                                            SubjectManager.shared.subjectName2,
+                                            SubjectManager.shared.subjectName3
+                                        ],
+                                        dropdownWidth: 95.06,
+                                        action: { selected in
+                                            selectedSubject = selected
+                                            switch selected {
+                                            case SubjectManager.shared.subjectName1:
+                                                viewModel.subjectId = SubjectManager.shared.subjectId1
+                                                selectedSubjectId = SubjectManager.shared.subjectId1
+                                            case SubjectManager.shared.subjectName2:
+                                                viewModel.subjectId = SubjectManager.shared.subjectId2
+                                                selectedSubjectId = SubjectManager.shared.subjectId2
+                                            case SubjectManager.shared.subjectName3:
+                                                viewModel.subjectId = SubjectManager.shared.subjectId3
+                                                selectedSubjectId = SubjectManager.shared.subjectId3
+                                            default:
+                                                viewModel.subjectId = nil
+                                            }
+                                        },
+                                        selectedItem: $selectedSubject
+                                    )
+                                    Spacer()
+                                }
+                                .zIndex(1)
+                            }
+                            
+                            HStack {
+                                Text("멘토 답변")
+                                    .font(.pretendard(.bold, size: 18))
+                                    .padding(.bottom, 3)
+                                
                                 Spacer()
-                            }
-                            .zIndex(1)
-                        }
-                        
-                        HStack {
-                            Text("멘토 답변")
-                                .font(.pretendard(.bold, size: 18))
-                                .padding(.bottom, 3)
-                            
-                            Spacer()
-                            
-                            CustomTextButton(
-                                title: "전체보기",
-                                action: {
-                                    navigationManager.append(.getMentorCommentsView)
-                                },
+                                
+                                CustomTextButton(
+                                    title: "전체보기",
+                                    action: {
+                                        navigationManager.append(.getMentorCommentsView)
+                                    },
                                     underline: true
-                            )
-                        }
-                        if viewModel.mentorComments.isEmpty {
-                            Text("멘토 답변이 없습니다.")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .font(.pretendard(.regular, size: 14))
-                                .foregroundColor(.sGray2)
-                                .padding(.bottom, 10)
-                        } else {
-                            ForEach(viewModel.mentorComments.prefix(2), id: \.commentId) { comment in
-                                ChatPreview(
-                                    chatType: .answer,
-                                    question: comment.post.title,
-                                    answer: comment.content,
-                                    nickname: comment.mentor.mentorName,
-                                    department: comment.mentor.mentorDepartment,
-                                    studentIdNumber: "\(comment.mentor.mentorStudentIdNumber)"
                                 )
                             }
-                        }
-                        
-                        HStack {
-                            Text("나의 질문")
-                                .font(.pretendard(.bold, size: 18))
-                                .padding(.top, 2)
-                                .padding(.bottom, 3)
+                            if viewModel.mentorComments.isEmpty {
+                                Text("멘토 답변이 없습니다.")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .font(.pretendard(.regular, size: 14))
+                                    .foregroundColor(.sGray2)
+                                    .padding(.bottom, 10)
+                            } else {
+                                ForEach(viewModel.mentorComments.prefix(2), id: \.commentId) { comment in
+                                    ChatPreview(
+                                        chatType: .answer,
+                                        question: comment.post.title,
+                                        answer: comment.content,
+                                        nickname: comment.mentor.mentorName,
+                                        department: comment.mentor.mentorDepartment,
+                                        studentIdNumber: "\(comment.mentor.mentorStudentIdNumber)"
+                                    )
+                                }
+                            }
                             
-                            Spacer()
-                            
-                            CustomTextButton(
-                                title: "전체보기",
-                                action: {
-                                    navigationManager.append(.getMyQuestionsView)
-                                },
-                                underline: true)
-                        }
-                        if viewModel.myQuestions.isEmpty {
-                            Text("나의 질문이 없습니다.")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .font(.pretendard(.regular, size: 14))
-                                .foregroundColor(.sGray2)
-                                .padding(.bottom, 10)
-                        } else {
-                            ForEach(viewModel.myQuestions.prefix(2), id: \.postId) { question in
-                                ChatPreview(
-                                    chatType: .question,
-                                    question: question.title,
-                                    nickname: question.mentee.menteeName,
-                                    department: question.mentee.menteeDepartment,
-                                    studentIdNumber: "\(question.mentee.menteeStudentIdNumber)"
-                                )
+                            HStack {
+                                Text("나의 질문")
+                                    .font(.pretendard(.bold, size: 18))
+                                    .padding(.top, 2)
+                                    .padding(.bottom, 3)
+                                
+                                Spacer()
+                                
+                                CustomTextButton(
+                                    title: "전체보기",
+                                    action: {
+                                        navigationManager.append(.getMyQuestionsView)
+                                    },
+                                    underline: true)
+                            }
+                            if viewModel.myQuestions.isEmpty {
+                                Text("나의 질문이 없습니다.")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .font(.pretendard(.regular, size: 14))
+                                    .foregroundColor(.sGray2)
+                                    .padding(.bottom, 10)
+                            } else {
+                                ForEach(viewModel.myQuestions.prefix(2), id: \.postId) { question in
+                                    ChatPreview(
+                                        chatType: .question,
+                                        question: question.title,
+                                        nickname: question.mentee.menteeName,
+                                        department: question.mentee.menteeDepartment,
+                                        studentIdNumber: "\(question.mentee.menteeStudentIdNumber)"
+                                    )
+                                }
                             }
                         }
+                        .frame(maxWidth: .infinity)
                         
-                        Spacer()
                     }
                     .padding(16)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
             }
             
@@ -162,15 +165,21 @@ struct FindMentorView: View {
                     navigationManager.append(.postWriteView(subjectId: subjectId))
                 }
             )
+            .zIndex(2)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             .padding([.bottom, .trailing], 20)
+            
         }
         .onAppear {
-            viewModel.getMentorComments(subjectId: nil, query: "", sortBy: "latest")
-            viewModel.getMyQuestions( sortBy: "latest")
+            DispatchQueue.main.async {
+                viewModel.getMentorComments(subjectId: nil, query: "", sortBy: "latest")
+                viewModel.getMyQuestions( sortBy: "latest")
+            }
         }
         .onChange(of: searchText) { newSearchText in
-            viewModel.query = newSearchText
+            DispatchQueue.main.async {
+                viewModel.query = newSearchText
+            }
         }
         .registerYDSToast()
     }

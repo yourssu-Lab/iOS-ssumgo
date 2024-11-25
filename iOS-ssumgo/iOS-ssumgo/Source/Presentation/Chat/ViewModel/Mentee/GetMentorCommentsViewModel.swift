@@ -38,7 +38,9 @@ final class GetMentorCommentsViewModel: ObservableObject {
                 break
             }
         }, receiveValue: { [weak self] response in
-            self?.mentorComments = response.commentsList
+            DispatchQueue.main.async {
+                self?.mentorComments = response.commentsList
+            }
         })
         .store(in: &cancellables)
     }

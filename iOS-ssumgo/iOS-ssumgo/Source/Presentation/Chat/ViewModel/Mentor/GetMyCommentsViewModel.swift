@@ -32,7 +32,9 @@ final class GetMyCommentsViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.myComments = response.commentsList
+                DispatchQueue.main.async {
+                    self?.myComments = response.commentsList
+                }
             })
             .store(in: &cancellables)
     }

@@ -35,7 +35,9 @@ final class GetMyQuestionsViewModel: ObservableObject {
                 break
             }
         }, receiveValue: { [weak self] response in
-            self?.myQuestions = response.postsList
+            DispatchQueue.main.async {
+                self?.myQuestions = response.postsList
+            }
         })
         .store(in: &cancellables)
     }
