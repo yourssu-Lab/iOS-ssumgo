@@ -9,13 +9,13 @@ import SwiftUI
 import Combine
 
 final class PopularCommentDAO {
-    func fetchPopularComments() -> AnyPublisher<[PopularCommentEntity], Error> {
+    func fetchPopularComments() -> AnyPublisher<[PopularCommentDTO], Error> {
         return BaseAPIClient.shared.performRequest(
             endpoint: "/posts/comments/popular",
             method: .get,
             headers: Config.headerWithAccessToken
         )
-        .tryMap { (response: BaseResponse<[PopularCommentEntity]>) in
+        .tryMap { (response: BaseResponse<[PopularCommentDTO]>) in
             guard let result = response.result else {
                 throw URLError(.badServerResponse)
             }
