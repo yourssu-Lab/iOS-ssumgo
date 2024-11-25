@@ -8,13 +8,13 @@
 import SwiftUI
 import YDS_SwiftUI
 
-enum ViewType {
+enum ChatViewType {
     case mentee
     case mentor
 }
 
 struct ChatView: View {
-    @State var viewType: ViewType
+    @State var viewType: ChatViewType
     
     var body: some View {
         NavigationView {
