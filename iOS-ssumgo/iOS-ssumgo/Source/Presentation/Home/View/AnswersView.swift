@@ -41,17 +41,11 @@ struct AnswersView: View {
                 TabView(selection: $currentIndex) {
                     ForEach(viewModel.comments.indices, id: \.self) { index in
                         ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(width: Constants.rectWidth, height: 92.83)
-                                .foregroundStyle(Color("s_gray10p"))
-                            
                             VStack(spacing: 0) {
                                 Text(viewModel.comments[index].post.title)
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.leading, 10)
-                                    .padding(.top, 10)
                                 
                                 Text(viewModel.comments[index].mentor.mentorName)
                                     .font(.pretendard(.regular, size: 12))
@@ -61,23 +55,24 @@ struct AnswersView: View {
                                     .padding(.top, 7)
                                 
                                 Divider()
-                                    .padding(.horizontal, 10)
                                     .padding(.vertical, 10)
                                 
                                 Text("-> \(viewModel.comments[index].title)")
                                     .font(.pretendard(.medium, size: 12))
                                     .foregroundStyle(.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.leading, 10)
-                                
-                                Spacer()
                             }
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 10)
+                            .background(Color("s_gray10p"))
+                            .cornerRadius(10)
                             .frame(width: Constants.rectWidth, height: 92.83)
                             .padding(.horizontal, 27)
                         }
                         .padding(.top, 16)
                     }
                 }
+                .frame(width: Constants.rectWidth, height: 110)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .onAppear {
                     currentIndex = 0

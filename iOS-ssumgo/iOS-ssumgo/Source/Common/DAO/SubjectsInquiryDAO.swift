@@ -9,13 +9,13 @@ import SwiftUI
 import Combine
 
 final class SubjectsInquiryDAO {
-    func fetchSubjects() -> AnyPublisher<[SubjectInquiryDTO], Error> {
+    func fetchSubjects() -> AnyPublisher<[SubjectEntity], Error> {
         return BaseAPIClient.shared.performRequest(
             endpoint: "/subjects/students",
             method: .get,
             headers: Config.headerWithAccessToken
         )
-        .tryMap { (response: BaseResponse<[SubjectInquiryDTO]>) in
+        .tryMap { (response: BaseResponse<[SubjectEntity]>) in
             guard let result = response.result else {
                 throw URLError(.badServerResponse)
             }
@@ -24,3 +24,4 @@ final class SubjectsInquiryDAO {
         .eraseToAnyPublisher()
     }
 }
+
